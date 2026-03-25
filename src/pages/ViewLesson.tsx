@@ -1,8 +1,11 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom'
+import { useWallet } from '@aptos-labs/wallet-adapter-react'
 import { LessonViewer } from '../components/LessonViewer'
+import { useWalletState } from '../components/WalletConnect'
 import { getDemoLesson } from '../lib/demo-lessons'
 import { downloadBlobAsText } from '../lib/blob-helpers'
 import { getCategoryById } from '../lib/categories'
+import { buildPaymentTransaction, isLessonPaid, markLessonPaid } from '../lib/payment'
 import { formatAPT, shortAddress, getShelbyClient, makeMetaBlobName } from '../config'
 import { useState, useEffect } from 'react'
 import type { Lesson, LessonMetadata } from '../types'
@@ -12,9 +15,14 @@ export function ViewLesson() {
   const [searchParams] = useSearchParams()
   const account = searchParams.get('account')
 
-  const [unlocked, setUnlocked] = useState(false)
+  const { connected, connect } = useWalletState()
+  const wallet = useWallet()
+
+  const [unlocked, setUnlocked] = useState(() => slug ? isLessonPaid(slug) : false)
   const [lesson, setLesson] = useState<Lesson | null>(null)
   const [loading, setLoading] = useState(false)
+  const [paying, setPaying] = useState(false)
+  const [payError, setPayError] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -165,14 +173,42 @@ export function ViewLesson() {
             <p className="text-[var(--color-text-muted)] mb-6">
               Pay {formatAPT(lesson.price)} to unlock this lesson. 100% goes directly to the educator.
             </p>
-            <button
-              onClick={() => setUnlocked(true)}
-              className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold transition-colors cursor-pointer"
-            >
-              Pay {formatAPT(lesson.price)} to Unlock
-            </button>
+            {!connected ? (
+              <button
+                onClick={connect}
+                className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold transition-colors cursor-pointer"
+              >
+                Connect Wallet to Pay
+              </button>
+            ) : (
+              <button
+                onClick={async () => {
+                  if (!slug) return
+                  setPaying(true)
+                  setPayError('')
+                  try {
+                    const tx = buildPaymentTransaction(lesson.author, lesson.price)
+                    const result = await wallet.signAndSubmitTransaction(tx)
+                    const hash = typeof result === 'object' && 'hash' in result ? result.hash : String(result)
+                    markLessonPaid(slug, hash)
+                    setUnlocked(true)
+                  } catch (err) {
+                    setPayError(err instanceof Error ? err.message : 'Payment failed. Please try again.')
+                  } finally {
+                    setPaying(false)
+                  }
+                }}
+                disabled={paying}
+                className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-colors cursor-pointer"
+              >
+                {paying ? 'Processing Payment...' : `Pay ${formatAPT(lesson.price)} to Unlock`}
+              </button>
+            )}
+            {payError && (
+              <p className="text-sm text-red-400 mt-3">{payError}</p>
+            )}
             <p className="text-xs text-[var(--color-text-muted)] mt-4">
-              Payment is processed on-chain via Aptos. Connect your wallet first.
+              Payment is a direct APT transfer on Aptos. No middleman, 100% to the educator.
             </p>
           </div>
         </div>

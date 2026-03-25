@@ -1,3 +1,5 @@
+import type { Account, AccountAddressInput } from '@aptos-labs/ts-sdk'
+import type { ShelbyClient } from '@shelby-protocol/sdk/browser'
 import type { LessonMetadata } from '../types'
 import {
   makeMetaBlobName,
@@ -9,8 +11,8 @@ import {
 } from '../config'
 
 interface UploadLessonParams {
-  client: { upload: (params: Record<string, unknown>) => Promise<void>; download: (params: Record<string, unknown>) => Promise<{ readable: ReadableStream<Uint8Array>; contentLength?: number }> }
-  signer: unknown
+  client: ShelbyClient
+  signer: Account
   title: string
   description: string
   category: LessonMetadata['category']
@@ -42,10 +44,11 @@ export async function uploadLesson(params: UploadLessonParams) {
 
   const expirationMicros = (Date.now() + expirationDays * 24 * 60 * 60 * 1000) * (MICRO_PER_SECOND / 1000)
 
+  const encoder = new TextEncoder()
+
   // Upload content blob first
-  const contentEncoder = new TextEncoder()
   await client.upload({
-    blobData: contentEncoder.encode(content),
+    blobData: encoder.encode(content),
     signer,
     blobName: contentBlobName,
     expirationMicros,
@@ -67,7 +70,7 @@ export async function uploadLesson(params: UploadLessonParams) {
 
   // Upload metadata blob
   await client.upload({
-    blobData: contentEncoder.encode(JSON.stringify(metadata)),
+    blobData: encoder.encode(JSON.stringify(metadata)),
     signer,
     blobName: metaBlobName,
     expirationMicros,
@@ -77,11 +80,11 @@ export async function uploadLesson(params: UploadLessonParams) {
 }
 
 export async function downloadBlobAsText(
-  client: { download: (params: Record<string, unknown>) => Promise<{ readable: ReadableStream<Uint8Array> }> },
-  account: string,
+  client: ShelbyClient,
+  account: AccountAddressInput,
   blobName: string,
 ): Promise<string> {
-  const blob = await client.download({ account, blobName })
+  const blob = await client.rpc.getBlob({ account, blobName })
   const reader = blob.readable.getReader()
   const chunks: Uint8Array[] = []
 
@@ -102,8 +105,8 @@ export async function downloadBlobAsText(
 }
 
 export async function fetchLessonMetadata(
-  client: { download: (params: Record<string, unknown>) => Promise<{ readable: ReadableStream<Uint8Array> }> },
-  account: string,
+  client: ShelbyClient,
+  account: AccountAddressInput,
   metaBlobName: string,
 ): Promise<LessonMetadata> {
   const text = await downloadBlobAsText(client, account, metaBlobName)

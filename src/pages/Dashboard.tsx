@@ -1,10 +1,54 @@
 import { Link } from 'react-router-dom'
+import { useAccountBlobs } from '@shelby-protocol/react'
 import { useWalletState } from '../components/WalletConnect'
 import { LessonCard } from '../components/LessonCard'
+import { getShelbyClient } from '../config'
 import { getDemoLessons } from '../lib/demo-lessons'
+import { isMetaBlob } from '../lib/blob-helpers'
+import type { Lesson } from '../types'
+import { useState, useEffect } from 'react'
+import { downloadBlobAsText } from '../lib/blob-helpers'
 
 export function Dashboard() {
   const { connected, address, connect } = useWalletState()
+  const shelbyClient = getShelbyClient()
+
+  const { data: blobs, isLoading } = useAccountBlobs({
+    client: shelbyClient,
+    account: address || '0x0',
+    pagination: { limit: 50, offset: 0 },
+    enabled: connected && !!address,
+  })
+
+  const [myLessons, setMyLessons] = useState<Lesson[]>([])
+  const [loadingLessons, setLoadingLessons] = useState(false)
+
+  // Fetch metadata for each meta blob
+  useEffect(() => {
+    if (!blobs || !address) return
+
+    const metaBlobs = blobs.filter(b => isMetaBlob(b.blobNameSuffix))
+    if (metaBlobs.length === 0) {
+      setMyLessons([])
+      return
+    }
+
+    setLoadingLessons(true)
+    Promise.all(
+      metaBlobs.map(async (blob) => {
+        try {
+          const text = await downloadBlobAsText(shelbyClient, address, blob.blobNameSuffix)
+          const meta = JSON.parse(text)
+          return { ...meta, metaBlobName: blob.blobNameSuffix } as Lesson
+        } catch {
+          return null
+        }
+      })
+    ).then(results => {
+      setMyLessons(results.filter((r): r is Lesson => r !== null))
+      setLoadingLessons(false)
+    })
+  }, [blobs, address])
 
   if (!connected) {
     return (
@@ -24,10 +68,9 @@ export function Dashboard() {
     )
   }
 
-  // Demo: show first 2 lessons as "my lessons"
-  const myLessons = getDemoLessons().slice(0, 2)
-  const totalEarnings = 1.25
-  const totalReads = 47
+  // Use real lessons if available, otherwise show demo data as examples
+  const displayLessons = myLessons.length > 0 ? myLessons : getDemoLessons().slice(0, 2)
+  const isDemo = myLessons.length === 0 && !loadingLessons && !isLoading
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -53,21 +96,35 @@ export function Dashboard() {
           <p className="text-3xl font-bold text-[var(--color-text-main)]">{myLessons.length}</p>
         </div>
         <div className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)] mb-1">Total Reads</p>
-          <p className="text-3xl font-bold text-[var(--color-text-main)]">{totalReads}</p>
+          <p className="text-sm text-[var(--color-text-muted)] mb-1">Total Blobs</p>
+          <p className="text-3xl font-bold text-[var(--color-text-main)]">{blobs?.length ?? 0}</p>
         </div>
         <div className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)] mb-1">Total Earnings</p>
-          <p className="text-3xl font-bold text-[var(--color-accent-green)]">{totalEarnings} APT</p>
+          <p className="text-sm text-[var(--color-text-muted)] mb-1">Status</p>
+          <p className="text-3xl font-bold text-[var(--color-accent-green)]">
+            {isLoading || loadingLessons ? '...' : 'Active'}
+          </p>
         </div>
       </div>
 
       {/* My Lessons */}
       <div>
-        <h2 className="text-xl font-bold text-[var(--color-text-main)] mb-4">My Lessons</h2>
-        {myLessons.length > 0 ? (
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-xl font-bold text-[var(--color-text-main)]">My Lessons</h2>
+          {isDemo && (
+            <span className="px-2 py-0.5 rounded-md bg-[var(--color-surface-light)] text-xs text-[var(--color-text-muted)] border border-[var(--color-border)]">
+              Demo data — publish a lesson to see real data
+            </span>
+          )}
+        </div>
+
+        {(isLoading || loadingLessons) ? (
+          <div className="text-center py-12">
+            <p className="text-[var(--color-text-muted)]">Loading your lessons...</p>
+          </div>
+        ) : displayLessons.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {myLessons.map(lesson => (
+            {displayLessons.map(lesson => (
               <LessonCard key={lesson.contentBlobName} lesson={lesson} />
             ))}
           </div>

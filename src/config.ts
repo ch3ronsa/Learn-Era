@@ -1,9 +1,24 @@
 import { Network } from '@aptos-labs/ts-sdk'
+import { ShelbyClient } from '@shelby-protocol/sdk/browser'
+
+export const SHELBY_NETWORK = Network.TESTNET
 
 export const SHELBY_CONFIG = {
-  network: Network.TESTNET,
-  apiKey: import.meta.env.VITE_SHELBY_API_KEY || '',
+  network: SHELBY_NETWORK,
+  apiKey: import.meta.env.VITE_SHELBY_API_KEY || undefined,
 } as const
+
+let _shelbyClient: ShelbyClient | null = null
+
+export function getShelbyClient(): ShelbyClient {
+  if (!_shelbyClient) {
+    _shelbyClient = new ShelbyClient({
+      network: SHELBY_NETWORK,
+      apiKey: SHELBY_CONFIG.apiKey,
+    })
+  }
+  return _shelbyClient
+}
 
 export const BLOB_PREFIX = 'shelbylearn'
 export const META_PREFIX = `${BLOB_PREFIX}/meta`

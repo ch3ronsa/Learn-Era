@@ -1,23 +1,70 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { LessonViewer } from '../components/LessonViewer'
-import { getDemoLessons } from '../lib/demo-lessons'
+import { getDemoLesson } from '../lib/demo-lessons'
+import { downloadBlobAsText } from '../lib/blob-helpers'
 import { getCategoryById } from '../lib/categories'
-import { formatAPT, shortAddress } from '../config'
-import { useState } from 'react'
+import { formatAPT, shortAddress, getShelbyClient, makeMetaBlobName } from '../config'
+import { useState, useEffect } from 'react'
+import type { Lesson, LessonMetadata } from '../types'
 
 export function ViewLesson() {
   const { slug } = useParams<{ slug: string }>()
-  const [unlocked, setUnlocked] = useState(false)
+  const [searchParams] = useSearchParams()
+  const account = searchParams.get('account')
 
-  const allLessons = getDemoLessons()
-  const lesson = allLessons.find(l => l.contentBlobName.endsWith(slug || ''))
+  const [unlocked, setUnlocked] = useState(false)
+  const [lesson, setLesson] = useState<Lesson | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!slug) return
+
+    // If account param provided, try to fetch from Shelby
+    if (account) {
+      setLoading(true)
+      const client = getShelbyClient()
+      const shortAddr = account.slice(0, 10)
+      const metaBlobName = makeMetaBlobName(shortAddr, slug)
+
+      downloadBlobAsText(client, account, metaBlobName)
+        .then(async (metaText) => {
+          const meta = JSON.parse(metaText) as LessonMetadata
+          // Download content
+          const content = await downloadBlobAsText(client, account, meta.contentBlobName)
+          setLesson({ ...meta, metaBlobName, content })
+        })
+        .catch(() => {
+          // Fallback to demo
+          const demo = getDemoLesson(slug)
+          if (demo) setLesson(demo)
+          else setError('Lesson not found')
+        })
+        .finally(() => setLoading(false))
+    } else {
+      // Lookup in demo data
+      const demo = getDemoLesson(slug)
+      if (demo) setLesson(demo)
+      else setError('not_found')
+    }
+  }, [slug, account])
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+        <p className="text-[var(--color-text-muted)]">Loading lesson from Shelby Protocol...</p>
+      </div>
+    )
+  }
 
   if (!lesson) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <div className="text-4xl mb-4">&#x1F4DA;</div>
         <h2 className="text-xl font-semibold text-[var(--color-text-main)] mb-2">Lesson not found</h2>
-        <p className="text-[var(--color-text-muted)] mb-6">This lesson may have expired or doesn't exist.</p>
+        <p className="text-[var(--color-text-muted)] mb-6">
+          {error || "This lesson may have expired or doesn't exist."}
+        </p>
         <Link
           to="/explore"
           className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium no-underline"

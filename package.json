@@ -16,6 +16,8 @@
     "@shelby-protocol/react": "^1.0.3",
     "@shelby-protocol/sdk": "^0.2.4",
     "@tanstack/react-query": "^5.95.2",
+    "@telegram-apps/bridge": "^2.11.0",
+    "@wallet-standard/core": "^1.1.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-markdown": "^10.1.0",

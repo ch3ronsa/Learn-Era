@@ -1,36 +1,21 @@
-import { useState } from 'react'
+import { useWallet } from '@aptos-labs/wallet-adapter-react'
 import { shortAddress } from '../config'
 
-// Simulated wallet state for demo (replace with real Aptos Wallet Adapter)
-let _connected = false
-let _address = ''
-
 export function useWalletState() {
-  const [connected, setConnected] = useState(_connected)
-  const [address, setAddress] = useState(_address)
+  const { connected, account, connect, disconnect } = useWallet()
+  const address = account?.address?.toString() || ''
 
-  const connect = () => {
-    // Demo: simulate wallet connection
-    _connected = true
-    _address = '0x' + Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
-    setConnected(true)
-    setAddress(_address)
+  const connectWallet = () => {
+    connect('Petra')
   }
 
-  const disconnect = () => {
-    _connected = false
-    _address = ''
-    setConnected(false)
-    setAddress('')
-  }
-
-  return { connected, address, connect, disconnect }
+  return { connected, address, connect: connectWallet, disconnect }
 }
 
 export function WalletConnect() {
   const { connected, address, connect, disconnect } = useWalletState()
 
-  if (connected) {
+  if (connected && address) {
     return (
       <div className="flex items-center gap-2">
         <div className="px-3 py-1.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">

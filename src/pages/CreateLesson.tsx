@@ -1,13 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useWallet } from '@aptos-labs/wallet-adapter-react'
+import { useUploadBlobs } from '@shelby-protocol/react'
 import { LessonViewer } from '../components/LessonViewer'
 import { CATEGORIES } from '../lib/categories'
-import type { Category } from '../types'
+import type { Category, LessonMetadata } from '../types'
 import { useWalletState } from '../components/WalletConnect'
+import {
+  getShelbyClient,
+  slugify,
+  makeMetaBlobName,
+  makeContentBlobName,
+  MICRO_PER_SECOND,
+  DEFAULT_EXPIRATION_DAYS,
+} from '../config'
 
 export function CreateLesson() {
   const navigate = useNavigate()
-  const { connected, connect } = useWalletState()
+  const { connected, connect, address } = useWalletState()
+  const wallet = useWallet()
+
+  const shelbyClient = getShelbyClient()
+  const uploadBlobs = useUploadBlobs({
+    client: shelbyClient,
+  })
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -17,6 +33,7 @@ export function CreateLesson() {
   const [content, setContent] = useState(STARTER_CONTENT)
   const [showPreview, setShowPreview] = useState(false)
   const [publishing, setPublishing] = useState(false)
+  const [error, setError] = useState('')
 
   if (!connected) {
     return (
@@ -38,17 +55,51 @@ export function CreateLesson() {
 
   const handlePublish = async () => {
     if (!title.trim() || !content.trim()) return
+    if (!address) return
 
     setPublishing(true)
+    setError('')
 
-    // Simulate upload delay (replace with real Shelby upload)
-    await new Promise(r => setTimeout(r, 2000))
+    try {
+      const slug = slugify(title)
+      const shortAddr = address.slice(0, 10)
+      const contentBlobName = makeContentBlobName(shortAddr, slug)
+      const metaBlobName = makeMetaBlobName(shortAddr, slug)
 
-    setPublishing(false)
+      const expirationMicros = (Date.now() + DEFAULT_EXPIRATION_DAYS * 24 * 60 * 60 * 1000) * (MICRO_PER_SECOND / 1000)
+      const encoder = new TextEncoder()
 
-    // Navigate to the lesson (in real app, use the slug from upload result)
-    const slug = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').slice(0, 60)
-    navigate(`/lesson/${slug}`)
+      // Build metadata
+      const metadata: LessonMetadata = {
+        version: 1,
+        title: title.trim(),
+        description: description.trim(),
+        author: address,
+        category,
+        tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+        contentBlobName,
+        price: parseFloat(price) || 0,
+        createdAt: Date.now(),
+        language: 'en',
+      }
+
+      // Upload both blobs via Shelby React hook (uses wallet adapter signer)
+      await uploadBlobs.mutateAsync({
+        signer: wallet,
+        blobs: [
+          { blobName: contentBlobName, blobData: encoder.encode(content) },
+          { blobName: metaBlobName, blobData: encoder.encode(JSON.stringify(metadata)) },
+        ],
+        expirationMicros,
+      })
+
+      navigate(`/lesson/${slug}`)
+    } catch (err) {
+      console.error('Upload failed:', err)
+      setError(err instanceof Error ? err.message : 'Upload failed. Please try again.')
+    } finally {
+      setPublishing(false)
+    }
   }
 
   return (
@@ -164,6 +215,10 @@ export function CreateLesson() {
           >
             {publishing ? 'Publishing to Shelby...' : 'Publish to Shelby'}
           </button>
+
+          {error && (
+            <p className="text-sm text-red-400 text-center">{error}</p>
+          )}
 
           <p className="text-xs text-[var(--color-text-muted)] text-center">
             Your lesson will be stored as a blob on Shelby Protocol for 90 days.

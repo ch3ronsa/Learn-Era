@@ -18,12 +18,12 @@ export function WalletConnect() {
   if (connected && address) {
     return (
       <div className="flex items-center gap-2">
-        <div className="px-3 py-1.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-sm text-[var(--color-text-muted)]">
+        <div className="px-3 py-1.5 rounded-xl bg-[var(--color-smoke)] border-2 border-[var(--color-border)] text-sm font-bold text-[var(--color-chalk)]">
           {shortAddress(address)}
         </div>
         <button
           onClick={disconnect}
-          className="px-3 py-1.5 rounded-lg text-sm text-[var(--color-text-muted)] hover:text-red-400 hover:bg-[var(--color-surface-light)] transition-colors cursor-pointer"
+          className="px-3 py-1.5 rounded-xl text-sm font-bold text-[var(--color-chalk)]/60 hover:text-[var(--color-petal)] hover:bg-[var(--color-mauve-light)] transition-colors cursor-pointer"
         >
           Disconnect
         </button>
@@ -34,7 +34,7 @@ export function WalletConnect() {
   return (
     <button
       onClick={connect}
-      className="px-4 py-2 rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-medium transition-colors cursor-pointer"
+      className="btn-chunky btn-chunky-primary px-5 py-2.5 text-sm"
     >
       Connect Wallet
     </button>

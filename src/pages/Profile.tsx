@@ -9,49 +9,48 @@ export function Profile() {
   if (!address) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <p className="text-[var(--color-text-muted)]">No profile address provided.</p>
+        <p className="text-[var(--color-text-muted)] font-semibold">No profile address provided.</p>
       </div>
     )
   }
 
-  // Demo: find lessons by this author
   const lessons = getDemoLessons().filter(l => l.author === address)
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Profile Header */}
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white font-bold text-xl">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--color-petal)] to-[var(--color-mauve)] flex items-center justify-center text-white font-black text-xl shadow-[0_4px_0_var(--color-mauve-dark)]">
           {address.slice(2, 4).toUpperCase()}
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-[var(--color-text-main)]">Educator Profile</h1>
-          <p className="text-sm text-[var(--color-text-muted)] font-mono">{shortAddress(address)}</p>
+          <h1 className="text-2xl font-black text-[var(--color-chalk)]">Educator Profile</h1>
+          <p className="text-sm text-[var(--color-text-muted)] font-mono font-bold">{shortAddress(address)}</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-        <div className="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Lessons</p>
-          <p className="text-2xl font-bold text-[var(--color-text-main)]">{lessons.length}</p>
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] font-bold">Lessons</p>
+          <p className="text-2xl font-black text-[var(--color-chalk)]">{lessons.length}</p>
         </div>
-        <div className="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Categories</p>
-          <p className="text-2xl font-bold text-[var(--color-text-main)]">
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] font-bold">Categories</p>
+          <p className="text-2xl font-black text-[var(--color-chalk)]">
             {new Set(lessons.map(l => l.category)).size}
           </p>
         </div>
-        <div className="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Free Lessons</p>
-          <p className="text-2xl font-bold text-[var(--color-accent-green)]">
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] font-bold">Free Lessons</p>
+          <p className="text-2xl font-black text-[var(--color-accent-green)]">
             {lessons.filter(l => l.price === 0).length}
           </p>
         </div>
       </div>
 
       {/* Lessons */}
-      <h2 className="text-xl font-bold text-[var(--color-text-main)] mb-4">Published Lessons</h2>
+      <h2 className="text-xl font-black text-[var(--color-chalk)] mb-4">Published Lessons</h2>
       {lessons.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {lessons.map(lesson => (
@@ -59,11 +58,11 @@ export function Profile() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 rounded-xl border border-dashed border-[var(--color-border)]">
-          <p className="text-[var(--color-text-muted)]">No lessons found for this educator.</p>
+        <div className="text-center py-12 rounded-2xl border-2 border-dashed border-[var(--color-border)]">
+          <p className="text-[var(--color-text-muted)] font-semibold">No lessons found for this educator.</p>
           <Link
             to="/explore"
-            className="text-[var(--color-primary-light)] hover:underline text-sm no-underline mt-2 inline-block"
+            className="text-[var(--color-petal)] hover:text-[var(--color-petal-light)] text-sm no-underline mt-2 inline-block font-bold"
           >
             Back to Explore
           </Link>

@@ -38,14 +38,14 @@ export function CreateLesson() {
   if (!connected) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <div className="text-4xl mb-4">&#x1F4DD;</div>
-        <h2 className="text-xl font-semibold text-[var(--color-text-main)] mb-2">Connect Wallet to Create</h2>
-        <p className="text-[var(--color-text-muted)] mb-6">
+        <div className="text-5xl mb-4">📝</div>
+        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Connect Wallet to Create</h2>
+        <p className="text-[var(--color-text-muted)] mb-6 font-semibold">
           You need a connected wallet to publish lessons to Shelby Protocol.
         </p>
         <button
           onClick={connect}
-          className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold transition-colors cursor-pointer"
+          className="btn-chunky btn-chunky-primary px-8 py-4 text-base"
         >
           Connect Wallet
         </button>
@@ -69,7 +69,6 @@ export function CreateLesson() {
       const expirationMicros = (Date.now() + DEFAULT_EXPIRATION_DAYS * 24 * 60 * 60 * 1000) * (MICRO_PER_SECOND / 1000)
       const encoder = new TextEncoder()
 
-      // Build metadata
       const metadata: LessonMetadata = {
         version: 1,
         title: title.trim(),
@@ -83,7 +82,6 @@ export function CreateLesson() {
         language: 'en',
       }
 
-      // Upload both blobs via Shelby React hook (uses wallet adapter signer)
       await uploadBlobs.mutateAsync({
         signer: wallet,
         blobs: [
@@ -105,8 +103,8 @@ export function CreateLesson() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-main)] mb-2">Create a Lesson</h1>
-        <p className="text-[var(--color-text-muted)]">
+        <h1 className="text-3xl font-black text-[var(--color-chalk)] mb-2">Create a Lesson</h1>
+        <p className="text-[var(--color-text-muted)] font-semibold">
           Write your lesson in Markdown. It will be stored on Shelby Protocol.
         </p>
       </div>
@@ -116,36 +114,36 @@ export function CreateLesson() {
         <div className="space-y-5">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-[var(--color-text-main)] mb-1.5">Title</label>
+            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Title</label>
             <input
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="e.g. React Hooks in 5 Minutes"
-              className="w-full px-4 py-2.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+              className="input-duo"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-[var(--color-text-main)] mb-1.5">Description</label>
+            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Description</label>
             <input
               type="text"
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="A short summary of what students will learn"
-              className="w-full px-4 py-2.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+              className="input-duo"
             />
           </div>
 
           {/* Category + Price */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[var(--color-text-main)] mb-1.5">Category</label>
+              <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Category</label>
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value as Category)}
-                className="w-full px-4 py-2.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+                className="input-duo"
               >
                 {CATEGORIES.map(c => (
                   <option key={c.id} value={c.id}>
@@ -155,7 +153,7 @@ export function CreateLesson() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-[var(--color-text-main)] mb-1.5">Price (APT)</label>
+              <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Price (APT)</label>
               <input
                 type="number"
                 value={price}
@@ -163,37 +161,37 @@ export function CreateLesson() {
                 min="0"
                 step="0.01"
                 placeholder="0 = Free"
-                className="w-full px-4 py-2.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+                className="input-duo"
               />
             </div>
           </div>
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium text-[var(--color-text-main)] mb-1.5">Tags</label>
+            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Tags</label>
             <input
               type="text"
               value={tags}
               onChange={e => setTags(e.target.value)}
               placeholder="react, hooks, javascript (comma separated)"
-              className="w-full px-4 py-2.5 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+              className="input-duo"
             />
           </div>
 
           {/* Content Editor */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-sm font-medium text-[var(--color-text-main)]">Lesson Content (Markdown)</label>
+              <label className="text-sm font-bold text-[var(--color-chalk)]">Lesson Content (Markdown)</label>
               <button
                 onClick={() => setShowPreview(!showPreview)}
-                className="text-xs text-[var(--color-primary-light)] hover:underline cursor-pointer"
+                className="text-xs font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] cursor-pointer"
               >
                 {showPreview ? 'Edit' : 'Preview'}
               </button>
             </div>
 
             {showPreview ? (
-              <div className="min-h-[300px] rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] p-4 overflow-auto">
+              <div className="min-h-[300px] rounded-2xl bg-[var(--color-smoke-light)] border-2 border-[var(--color-border)] p-4 overflow-auto">
                 <LessonViewer content={content} />
               </div>
             ) : (
@@ -201,7 +199,7 @@ export function CreateLesson() {
                 value={content}
                 onChange={e => setContent(e.target.value)}
                 rows={14}
-                className="w-full px-4 py-3 rounded-lg bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors font-mono text-sm resize-y"
+                className="input-duo font-mono text-sm resize-y"
                 placeholder="Write your lesson in Markdown..."
               />
             )}
@@ -211,16 +209,16 @@ export function CreateLesson() {
           <button
             onClick={handlePublish}
             disabled={!title.trim() || !content.trim() || publishing}
-            className="w-full px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-colors cursor-pointer"
+            className="w-full btn-chunky btn-chunky-primary px-6 py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none"
           >
-            {publishing ? 'Publishing to Shelby...' : 'Publish to Shelby'}
+            {publishing ? 'Publishing to Shelby...' : 'Publish to Shelby 🚀'}
           </button>
 
           {error && (
-            <p className="text-sm text-red-400 text-center">{error}</p>
+            <p className="text-sm text-red-400 text-center font-bold">{error}</p>
           )}
 
-          <p className="text-xs text-[var(--color-text-muted)] text-center">
+          <p className="text-xs text-[var(--color-text-muted)] text-center font-semibold">
             Your lesson will be stored as a blob on Shelby Protocol for 90 days.
             Verified by merkle proof on Aptos blockchain.
           </p>
@@ -229,12 +227,12 @@ export function CreateLesson() {
         {/* Right: Live Preview */}
         <div className="hidden lg:block">
           <div className="sticky top-24">
-            <h3 className="text-sm font-medium text-[var(--color-text-muted)] mb-3">Live Preview</h3>
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)] p-6 max-h-[calc(100vh-8rem)] overflow-auto">
+            <h3 className="text-sm font-bold text-[var(--color-text-muted)] mb-3">Live Preview</h3>
+            <div className="card-duo p-6 max-h-[calc(100vh-8rem)] overflow-auto">
               {content.trim() ? (
                 <LessonViewer content={content} />
               ) : (
-                <p className="text-[var(--color-text-muted)] text-center py-8">
+                <p className="text-[var(--color-text-muted)] text-center py-8 font-semibold">
                   Start writing to see a preview...
                 </p>
               )}

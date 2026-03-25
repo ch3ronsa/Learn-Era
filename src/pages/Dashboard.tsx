@@ -23,7 +23,6 @@ export function Dashboard() {
   const [myLessons, setMyLessons] = useState<Lesson[]>([])
   const [loadingLessons, setLoadingLessons] = useState(false)
 
-  // Fetch metadata for each meta blob
   useEffect(() => {
     if (!blobs || !address) return
 
@@ -53,14 +52,14 @@ export function Dashboard() {
   if (!connected) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <div className="text-4xl mb-4">&#x1F4CA;</div>
-        <h2 className="text-xl font-semibold text-[var(--color-text-main)] mb-2">Connect to View Dashboard</h2>
-        <p className="text-[var(--color-text-muted)] mb-6">
+        <div className="text-5xl mb-4">📊</div>
+        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Connect to View Dashboard</h2>
+        <p className="text-[var(--color-text-muted)] mb-6 font-semibold">
           Connect your wallet to see your published lessons and earnings.
         </p>
         <button
           onClick={connect}
-          className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold transition-colors cursor-pointer"
+          className="btn-chunky btn-chunky-primary px-8 py-4 text-base"
         >
           Connect Wallet
         </button>
@@ -68,7 +67,6 @@ export function Dashboard() {
     )
   }
 
-  // Use real lessons if available, otherwise show demo data as examples
   const displayLessons = myLessons.length > 0 ? myLessons : getDemoLessons().slice(0, 2)
   const isDemo = myLessons.length === 0 && !loadingLessons && !isLoading
 
@@ -76,14 +74,14 @@ export function Dashboard() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-[var(--color-text-main)] mb-1">Dashboard</h1>
-          <p className="text-sm text-[var(--color-text-muted)]">
+          <h1 className="text-3xl font-black text-[var(--color-chalk)] mb-1">Dashboard</h1>
+          <p className="text-sm text-[var(--color-text-muted)] font-bold">
             Wallet: {address.slice(0, 10)}...{address.slice(-6)}
           </p>
         </div>
         <Link
           to="/create"
-          className="px-4 py-2 rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white text-sm font-medium no-underline transition-colors"
+          className="btn-chunky btn-chunky-primary px-5 py-2.5 text-sm"
         >
           + New Lesson
         </Link>
@@ -91,17 +89,17 @@ export function Dashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-        <div className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)] mb-1">Published Lessons</p>
-          <p className="text-3xl font-bold text-[var(--color-text-main)]">{myLessons.length}</p>
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] mb-1 font-bold">Published Lessons</p>
+          <p className="text-3xl font-black text-[var(--color-chalk)]">{myLessons.length}</p>
         </div>
-        <div className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)] mb-1">Total Blobs</p>
-          <p className="text-3xl font-bold text-[var(--color-text-main)]">{blobs?.length ?? 0}</p>
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] mb-1 font-bold">Total Blobs</p>
+          <p className="text-3xl font-black text-[var(--color-chalk)]">{blobs?.length ?? 0}</p>
         </div>
-        <div className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)]">
-          <p className="text-sm text-[var(--color-text-muted)] mb-1">Status</p>
-          <p className="text-3xl font-bold text-[var(--color-accent-green)]">
+        <div className="card-duo p-5">
+          <p className="text-sm text-[var(--color-text-muted)] mb-1 font-bold">Status</p>
+          <p className="text-3xl font-black text-[var(--color-accent-green)]">
             {isLoading || loadingLessons ? '...' : 'Active'}
           </p>
         </div>
@@ -110,9 +108,9 @@ export function Dashboard() {
       {/* My Lessons */}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-xl font-bold text-[var(--color-text-main)]">My Lessons</h2>
+          <h2 className="text-xl font-black text-[var(--color-chalk)]">My Lessons</h2>
           {isDemo && (
-            <span className="px-2 py-0.5 rounded-md bg-[var(--color-surface-light)] text-xs text-[var(--color-text-muted)] border border-[var(--color-border)]">
+            <span className="px-3 py-1 rounded-xl bg-[var(--color-mauve)] text-xs text-[var(--color-text-muted)] font-bold border-2 border-[var(--color-border)]">
               Demo data — publish a lesson to see real data
             </span>
           )}
@@ -120,7 +118,7 @@ export function Dashboard() {
 
         {(isLoading || loadingLessons) ? (
           <div className="text-center py-12">
-            <p className="text-[var(--color-text-muted)]">Loading your lessons...</p>
+            <p className="text-[var(--color-text-muted)] font-semibold">Loading your lessons...</p>
           </div>
         ) : displayLessons.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -129,11 +127,11 @@ export function Dashboard() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 rounded-xl border border-dashed border-[var(--color-border)]">
-            <p className="text-[var(--color-text-muted)] mb-4">You haven't published any lessons yet.</p>
+          <div className="text-center py-12 rounded-2xl border-2 border-dashed border-[var(--color-border)]">
+            <p className="text-[var(--color-text-muted)] mb-4 font-semibold">You haven't published any lessons yet.</p>
             <Link
               to="/create"
-              className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium no-underline"
+              className="btn-chunky btn-chunky-primary px-6 py-3 text-sm"
             >
               Create Your First Lesson
             </Link>

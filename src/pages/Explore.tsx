@@ -37,8 +37,8 @@ export function Explore() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--color-text-main)] mb-2">Explore Lessons</h1>
-        <p className="text-[var(--color-text-muted)]">
+        <h1 className="text-3xl font-black text-[var(--color-chalk)] mb-2">Explore Lessons</h1>
+        <p className="text-[var(--color-text-muted)] font-semibold">
           Discover micro-lessons from educators around the world
         </p>
       </div>
@@ -47,10 +47,10 @@ export function Explore() {
       <div className="mb-6">
         <input
           type="text"
-          placeholder="Search lessons by title, description, or tag..."
+          placeholder="🔍 Search lessons by title, description, or tag..."
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl bg-[var(--color-surface-light)] border border-[var(--color-border)] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+          className="input-duo"
         />
       </div>
 
@@ -62,7 +62,7 @@ export function Explore() {
       {/* Results */}
       {filteredLessons.length > 0 ? (
         <>
-          <p className="text-sm text-[var(--color-text-muted)] mb-4">
+          <p className="text-sm text-[var(--color-text-muted)] mb-4 font-bold">
             {filteredLessons.length} lesson{filteredLessons.length !== 1 ? 's' : ''} found
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -73,9 +73,9 @@ export function Explore() {
         </>
       ) : (
         <div className="text-center py-16">
-          <div className="text-4xl mb-4">&#x1F50D;</div>
-          <h3 className="text-lg font-semibold text-[var(--color-text-main)] mb-2">No lessons found</h3>
-          <p className="text-[var(--color-text-muted)]">
+          <div className="text-5xl mb-4">🔍</div>
+          <h3 className="text-lg font-extrabold text-[var(--color-chalk)] mb-2">No lessons found</h3>
+          <p className="text-[var(--color-text-muted)] font-semibold">
             Try a different search term or category.
           </p>
         </div>

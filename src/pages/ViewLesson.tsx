@@ -28,7 +28,6 @@ export function ViewLesson() {
   useEffect(() => {
     if (!slug) return
 
-    // If account param provided, try to fetch from Shelby
     if (account) {
       setLoading(true)
       const client = getShelbyClient()
@@ -38,19 +37,16 @@ export function ViewLesson() {
       downloadBlobAsText(client, account, metaBlobName)
         .then(async (metaText) => {
           const meta = JSON.parse(metaText) as LessonMetadata
-          // Download content
           const content = await downloadBlobAsText(client, account, meta.contentBlobName)
           setLesson({ ...meta, metaBlobName, content })
         })
         .catch(() => {
-          // Fallback to demo
           const demo = getDemoLesson(slug)
           if (demo) setLesson(demo)
           else setError('Lesson not found')
         })
         .finally(() => setLoading(false))
     } else {
-      // Lookup in demo data
       const demo = getDemoLesson(slug)
       if (demo) setLesson(demo)
       else setError('not_found')
@@ -60,7 +56,7 @@ export function ViewLesson() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <p className="text-[var(--color-text-muted)]">Loading lesson from Shelby Protocol...</p>
+        <p className="text-[var(--color-text-muted)] font-semibold">Loading lesson from Shelby Protocol...</p>
       </div>
     )
   }
@@ -68,14 +64,14 @@ export function ViewLesson() {
   if (!lesson) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <div className="text-4xl mb-4">&#x1F4DA;</div>
-        <h2 className="text-xl font-semibold text-[var(--color-text-main)] mb-2">Lesson not found</h2>
-        <p className="text-[var(--color-text-muted)] mb-6">
+        <div className="text-5xl mb-4">📚</div>
+        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Lesson not found</h2>
+        <p className="text-[var(--color-text-muted)] mb-6 font-semibold">
           {error || "This lesson may have expired or doesn't exist."}
         </p>
         <Link
           to="/explore"
-          className="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm font-medium no-underline"
+          className="btn-chunky btn-chunky-primary px-6 py-3 text-sm"
         >
           Explore Lessons
         </Link>
@@ -95,48 +91,48 @@ export function ViewLesson() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] mb-6">
-        <Link to="/explore" className="hover:text-[var(--color-text-main)] no-underline text-[var(--color-text-muted)]">
+      <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] mb-6 font-bold">
+        <Link to="/explore" className="hover:text-[var(--color-chalk)] no-underline text-[var(--color-text-muted)]">
           Explore
         </Link>
         <span>/</span>
         <Link
           to={`/explore?category=${lesson.category}`}
-          className="hover:text-[var(--color-text-main)] no-underline text-[var(--color-text-muted)]"
+          className="hover:text-[var(--color-chalk)] no-underline text-[var(--color-text-muted)]"
         >
           {category.label}
         </Link>
         <span>/</span>
-        <span className="text-[var(--color-text-main)]">{lesson.title}</span>
+        <span className="text-[var(--color-chalk)]">{lesson.title}</span>
       </div>
 
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <span
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: category.color + '15', color: category.color }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold"
+            style={{ backgroundColor: category.color + '20', color: category.color }}
           >
             <span>{category.icon}</span>
             {category.label}
           </span>
-          <span className={`text-sm font-semibold ${lesson.price === 0 ? 'text-[var(--color-accent-green)]' : 'text-[var(--color-accent)]'}`}>
+          <span className={`text-sm font-black ${lesson.price === 0 ? 'text-[var(--color-accent-green)]' : 'text-[var(--color-petal)]'}`}>
             {formatAPT(lesson.price)}
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-main)] mb-3">
+        <h1 className="text-3xl md:text-4xl font-black text-[var(--color-chalk)] mb-3">
           {lesson.title}
         </h1>
 
-        <p className="text-lg text-[var(--color-text-muted)] mb-4">
+        <p className="text-lg text-[var(--color-text-muted)] mb-4 font-semibold">
           {lesson.description}
         </p>
 
-        <div className="flex items-center gap-4 text-sm text-[var(--color-text-muted)]">
+        <div className="flex items-center gap-4 text-sm text-[var(--color-text-muted)] font-bold">
           <Link
             to={`/profile/${lesson.author}`}
-            className="hover:text-[var(--color-primary-light)] no-underline text-[var(--color-text-muted)]"
+            className="hover:text-[var(--color-petal)] no-underline text-[var(--color-text-muted)]"
           >
             By {shortAddress(lesson.author)}
           </Link>
@@ -149,7 +145,7 @@ export function ViewLesson() {
             {lesson.tags.map(tag => (
               <span
                 key={tag}
-                className="px-3 py-1 rounded-lg bg-[var(--color-surface-light)] text-xs text-[var(--color-text-muted)] border border-[var(--color-border)]"
+                className="px-3 py-1 rounded-xl bg-[var(--color-smoke-light)] text-xs text-[var(--color-text-muted)] font-bold border-2 border-[var(--color-border)]"
               >
                 {tag}
               </span>
@@ -160,23 +156,23 @@ export function ViewLesson() {
 
       {/* Content or Paywall */}
       {showContent ? (
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)] p-6 md:p-8">
+        <div className="card-duo p-6 md:p-8">
           <LessonViewer content={lesson.content || ''} />
         </div>
       ) : (
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-light)] p-8 text-center">
+        <div className="card-duo p-8 text-center">
           <div className="max-w-md mx-auto">
-            <div className="text-4xl mb-4">&#x1F512;</div>
-            <h3 className="text-xl font-semibold text-[var(--color-text-main)] mb-2">
+            <div className="text-5xl mb-4">🔒</div>
+            <h3 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">
               Premium Lesson
             </h3>
-            <p className="text-[var(--color-text-muted)] mb-6">
+            <p className="text-[var(--color-text-muted)] mb-6 font-semibold">
               Pay {formatAPT(lesson.price)} to unlock this lesson. 100% goes directly to the educator.
             </p>
             {!connected ? (
               <button
                 onClick={connect}
-                className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-semibold transition-colors cursor-pointer"
+                className="btn-chunky btn-chunky-primary px-8 py-4 text-base"
               >
                 Connect Wallet to Pay
               </button>
@@ -199,15 +195,15 @@ export function ViewLesson() {
                   }
                 }}
                 disabled={paying}
-                className="px-6 py-3 rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-colors cursor-pointer"
+                className="btn-chunky btn-chunky-primary px-8 py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
               >
                 {paying ? 'Processing Payment...' : `Pay ${formatAPT(lesson.price)} to Unlock`}
               </button>
             )}
             {payError && (
-              <p className="text-sm text-red-400 mt-3">{payError}</p>
+              <p className="text-sm text-red-400 mt-3 font-bold">{payError}</p>
             )}
-            <p className="text-xs text-[var(--color-text-muted)] mt-4">
+            <p className="text-xs text-[var(--color-text-muted)] mt-4 font-semibold">
               Payment is a direct APT transfer on Aptos. No middleman, 100% to the educator.
             </p>
           </div>
@@ -215,13 +211,13 @@ export function ViewLesson() {
       )}
 
       {/* Verification badge */}
-      <div className="mt-6 p-4 rounded-xl bg-[var(--color-surface-light)]/50 border border-[var(--color-border)] flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-[var(--color-accent-green)]/10 flex items-center justify-center text-[var(--color-accent-green)]">
-          &#x2713;
+      <div className="mt-6 card-duo p-4 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-2xl bg-[var(--color-accent-green)]/15 flex items-center justify-center text-lg">
+          ✅
         </div>
         <div>
-          <p className="text-sm font-medium text-[var(--color-text-main)]">Stored on Shelby Protocol</p>
-          <p className="text-xs text-[var(--color-text-muted)]">
+          <p className="text-sm font-extrabold text-[var(--color-chalk)]">Stored on Shelby Protocol</p>
+          <p className="text-xs text-[var(--color-text-muted)] font-semibold">
             This lesson is stored as a verified blob on decentralized storage. Content integrity guaranteed by merkle proof.
           </p>
         </div>

@@ -11,26 +11,26 @@ export function Home() {
     <div>
       {/* ─── Hero ─── */}
       <section className="section-mauve">
-        <div className="max-w-xl mx-auto px-4 py-12 md:py-16 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-xs font-bold text-[var(--color-petal-light)] mb-5">
+        <div className="max-w-4xl mx-auto px-4 py-14 md:py-20 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-xs font-bold text-[var(--color-petal-light)] mb-6">
             <span className="w-2 h-2 rounded-full bg-[var(--color-green)] animate-pulse" />
             Powered by Shelby Protocol
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black text-[var(--color-chalk)] mb-2 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-[var(--color-chalk)] mb-3 leading-tight">
             Learn anything.{' '}
             <span className="text-[var(--color-petal)]">Pay per lesson.</span>
           </h1>
 
-          <p className="text-sm text-[var(--color-chalk)]/50 mb-6 max-w-md mx-auto font-semibold leading-relaxed">
-            Micro-lessons on decentralized storage. Educators earn 100%. No middleman.
+          <p className="text-base text-[var(--color-chalk)]/50 mb-8 max-w-lg mx-auto font-semibold leading-relaxed">
+            Micro-lessons on decentralized storage. Educators earn 100%. No middleman. No fees.
           </p>
 
           <div className="flex items-center justify-center gap-3">
-            <Link to="/explore" className="btn btn-green btn-md">
+            <Link to="/explore" className="btn btn-green btn-lg">
               Start Learning
             </Link>
-            <Link to="/create" className="btn btn-secondary btn-md">
+            <Link to="/create" className="btn btn-secondary btn-lg">
               Start Teaching
             </Link>
           </div>
@@ -39,7 +39,7 @@ export function Home() {
 
       {/* ─── Stats ─── */}
       <section className="border-y-2 border-[var(--color-border)]">
-        <div className="max-w-3xl mx-auto px-4 py-5 grid grid-cols-4 gap-2">
+        <div className="max-w-4xl mx-auto px-4 py-5 grid grid-cols-4 gap-2">
           {[
             { value: '100%', label: 'Revenue', color: 'var(--color-green)' },
             { value: '$0', label: 'Fees', color: 'var(--color-petal)' },
@@ -55,7 +55,7 @@ export function Home() {
       </section>
 
       {/* ─── Categories ─── */}
-      <section className="max-w-3xl mx-auto px-4 py-10">
+      <section className="max-w-4xl mx-auto px-4 py-10">
         <h2 className="text-base font-black text-[var(--color-chalk)] mb-4">Browse by Category</h2>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           {CATEGORIES.map(cat => (
@@ -74,7 +74,7 @@ export function Home() {
       </section>
 
       {/* ─── Featured ─── */}
-      <section className="max-w-3xl mx-auto px-4 pb-10">
+      <section className="max-w-4xl mx-auto px-4 pb-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-black text-[var(--color-chalk)]">Featured Lessons</h2>
           <Link to="/explore" className="text-sm font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] no-underline">
@@ -90,7 +90,7 @@ export function Home() {
 
       {/* ─── How it works ─── */}
       <section className="section-mauve border-t-2 border-[var(--color-border)]">
-        <div className="max-w-3xl mx-auto px-4 py-10">
+        <div className="max-w-4xl mx-auto px-4 py-10">
           <h2 className="text-base font-black text-[var(--color-chalk)] mb-6 text-center">How It Works</h2>
           <div className="grid grid-cols-3 gap-3">
             {[

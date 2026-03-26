@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "highlight.js/styles/github-dark.css";
 
 @theme {
-  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Montserrat Alternates', system-ui, -apple-system, sans-serif;
 
   --color-chalk: #F0EBE3;
   --color-mauve: #3B2535;
@@ -41,14 +41,19 @@ body {
 .btn-pill {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   font-family: var(--font-sans); font-weight: 700; font-size: 0.875rem;
-  padding: 12px 28px; border-radius: 9999px;
+  padding: 14px 32px; border-radius: 9999px; /* explicitly pill */
   border: 2px solid transparent; cursor: pointer;
-  transition: all 0.25s ease; text-decoration: none; line-height: 1.2;
+  transition: all 0.3s ease; text-decoration: none; line-height: 1.2;
 }
 .btn-pill-primary {
   background: var(--color-petal); color: #fff; border-color: var(--color-petal);
 }
-.btn-pill-primary:hover { background: var(--color-mauve); border-color: var(--color-mauve); }
+.btn-pill-primary:hover { 
+  background: var(--color-mauve); 
+  border-color: var(--color-mauve); 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(212, 134, 154, 0.4);
+}
 .btn-pill-outline {
   background: transparent; color: var(--color-petal); border-color: var(--color-petal);
 }
@@ -63,14 +68,16 @@ body {
 /* ─── Edumel card ─── */
 .edu-card {
   background: var(--color-smoke-light);
-  border-radius: 12px;
+  border-radius: 16px; /* softer Edumel-style corners */
   overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  border: 1px solid rgba(240, 235, 227, 0.05); /* chalk with opacity */
 }
 .edu-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+  border-color: var(--color-petal);
 }
 
 /* ─── Edumel input ─── */

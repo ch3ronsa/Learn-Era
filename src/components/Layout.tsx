@@ -70,14 +70,14 @@ export function Layout() {
         </div>
       </nav>
 
-      <main className="flex-1 pb-16 md:pb-0">
+      <main className="flex-1 pb-24 md:pb-0">
         <Outlet />
       </main>
 
       {/* Edumel-style dark footer */}
-      <footer className="hidden md:block bg-[var(--color-mauve-dark)] py-10">
+      <footer className="hidden md:block bg-[var(--color-smoke-lighter)] py-14 border-t border-[var(--color-border)]">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-lg bg-[var(--color-petal)] flex items-center justify-center text-white font-extrabold text-xs">LE</div>

@@ -14,7 +14,7 @@ export function LessonCard({ lesson }: LessonCardProps) {
   }
 
   return (
-    <Link to={`/lesson/${lesson.contentBlobName}`} className="block">
+    <Link to={`/lesson/${encodeURIComponent(lesson.contentBlobName)}`} className="block">
       <div className="bg-surface-container-lowest rounded-xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300 shadow-sm hover:shadow-md">
         <div className="relative aspect-video">
           <img className="w-full h-full object-cover" src={getPlaceholderImage(lesson.category)} alt={lesson.title} />

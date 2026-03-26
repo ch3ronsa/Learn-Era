@@ -21,9 +21,7 @@ export function CreateLesson() {
   const wallet = useWallet()
 
   const shelbyClient = getShelbyClient()
-  const uploadBlobs = useUploadBlobs({
-    client: shelbyClient,
-  })
+  const uploadBlobs = useUploadBlobs({ client: shelbyClient })
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -37,51 +35,35 @@ export function CreateLesson() {
 
   if (!connected) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <div className="text-5xl mb-4">📝</div>
-        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Connect Wallet to Create</h2>
-        <p className="text-[var(--color-text-muted)] mb-6 font-semibold">
-          You need a connected wallet to publish lessons to Shelby Protocol.
+      <div className="max-w-5xl mx-auto px-4 py-16 text-center">
+        <div className="text-4xl mb-3">📝</div>
+        <h2 className="text-lg font-black text-[var(--color-chalk)] mb-2">Connect Wallet to Create</h2>
+        <p className="text-sm text-[var(--color-text-muted)] mb-6 font-semibold">
+          You need a connected wallet to publish lessons.
         </p>
-        <button
-          onClick={connect}
-          className="btn-chunky btn-chunky-primary px-8 py-4 text-base"
-        >
-          Connect Wallet
-        </button>
+        <button onClick={connect} className="btn btn-primary btn-lg">Connect Wallet</button>
       </div>
     )
   }
 
   const handlePublish = async () => {
-    if (!title.trim() || !content.trim()) return
-    if (!address) return
-
+    if (!title.trim() || !content.trim() || !address) return
     setPublishing(true)
     setError('')
-
     try {
       const slug = slugify(title)
       const shortAddr = address.slice(0, 10)
       const contentBlobName = makeContentBlobName(shortAddr, slug)
       const metaBlobName = makeMetaBlobName(shortAddr, slug)
-
       const expirationMicros = (Date.now() + DEFAULT_EXPIRATION_DAYS * 24 * 60 * 60 * 1000) * (MICRO_PER_SECOND / 1000)
       const encoder = new TextEncoder()
-
       const metadata: LessonMetadata = {
-        version: 1,
-        title: title.trim(),
-        description: description.trim(),
-        author: address,
-        category,
+        version: 1, title: title.trim(), description: description.trim(),
+        author: address, category,
         tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-        contentBlobName,
-        price: parseFloat(price) || 0,
-        createdAt: Date.now(),
-        language: 'en',
+        contentBlobName, price: parseFloat(price) || 0,
+        createdAt: Date.now(), language: 'en',
       }
-
       await uploadBlobs.mutateAsync({
         signer: wallet,
         blobs: [
@@ -90,150 +72,91 @@ export function CreateLesson() {
         ],
         expirationMicros,
       })
-
       navigate(`/lesson/${slug}`)
     } catch (err) {
       console.error('Upload failed:', err)
-      setError(err instanceof Error ? err.message : 'Upload failed. Please try again.')
+      setError(err instanceof Error ? err.message : 'Upload failed.')
     } finally {
       setPublishing(false)
     }
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-black text-[var(--color-chalk)] mb-2">Create a Lesson</h1>
-        <p className="text-[var(--color-text-muted)] font-semibold">
-          Write your lesson in Markdown. It will be stored on Shelby Protocol.
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-black text-[var(--color-chalk)] mb-1">Create a Lesson</h1>
+        <p className="text-sm text-[var(--color-text-muted)] font-semibold">
+          Write in Markdown. Stored on Shelby Protocol.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Form */}
-        <div className="space-y-5">
-          {/* Title */}
+        <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              placeholder="e.g. React Hooks in 5 Minutes"
-              className="input-duo"
-            />
+            <label className="block text-xs font-bold text-[var(--color-chalk)] mb-1.5">Title</label>
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)}
+              placeholder="e.g. React Hooks in 5 Minutes" className="input" />
           </div>
-
-          {/* Description */}
           <div>
-            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="A short summary of what students will learn"
-              className="input-duo"
-            />
+            <label className="block text-xs font-bold text-[var(--color-chalk)] mb-1.5">Description</label>
+            <input type="text" value={description} onChange={e => setDescription(e.target.value)}
+              placeholder="What will students learn?" className="input" />
           </div>
-
-          {/* Category + Price */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Category</label>
-              <select
-                value={category}
-                onChange={e => setCategory(e.target.value as Category)}
-                className="input-duo"
-              >
+              <label className="block text-xs font-bold text-[var(--color-chalk)] mb-1.5">Category</label>
+              <select value={category} onChange={e => setCategory(e.target.value as Category)} className="input">
                 {CATEGORIES.map(c => (
-                  <option key={c.id} value={c.id}>
-                    {c.icon} {c.label}
-                  </option>
+                  <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Price (APT)</label>
-              <input
-                type="number"
-                value={price}
-                onChange={e => setPrice(e.target.value)}
-                min="0"
-                step="0.01"
-                placeholder="0 = Free"
-                className="input-duo"
-              />
+              <label className="block text-xs font-bold text-[var(--color-chalk)] mb-1.5">Price (APT)</label>
+              <input type="number" value={price} onChange={e => setPrice(e.target.value)}
+                min="0" step="0.01" placeholder="0 = Free" className="input" />
             </div>
           </div>
-
-          {/* Tags */}
           <div>
-            <label className="block text-sm font-bold text-[var(--color-chalk)] mb-1.5">Tags</label>
-            <input
-              type="text"
-              value={tags}
-              onChange={e => setTags(e.target.value)}
-              placeholder="react, hooks, javascript (comma separated)"
-              className="input-duo"
-            />
+            <label className="block text-xs font-bold text-[var(--color-chalk)] mb-1.5">Tags</label>
+            <input type="text" value={tags} onChange={e => setTags(e.target.value)}
+              placeholder="react, hooks, javascript" className="input" />
           </div>
-
-          {/* Content Editor */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-sm font-bold text-[var(--color-chalk)]">Lesson Content (Markdown)</label>
-              <button
-                onClick={() => setShowPreview(!showPreview)}
-                className="text-xs font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] cursor-pointer"
-              >
+              <label className="text-xs font-bold text-[var(--color-chalk)]">Content (Markdown)</label>
+              <button onClick={() => setShowPreview(!showPreview)}
+                className="text-xs font-bold text-[var(--color-petal)] cursor-pointer">
                 {showPreview ? 'Edit' : 'Preview'}
               </button>
             </div>
-
             {showPreview ? (
-              <div className="min-h-[300px] rounded-2xl bg-[var(--color-smoke-light)] border-2 border-[var(--color-border)] p-4 overflow-auto">
+              <div className="card min-h-[280px] p-4 overflow-auto">
                 <LessonViewer content={content} />
               </div>
             ) : (
-              <textarea
-                value={content}
-                onChange={e => setContent(e.target.value)}
-                rows={14}
-                className="input-duo font-mono text-sm resize-y"
-                placeholder="Write your lesson in Markdown..."
-              />
+              <textarea value={content} onChange={e => setContent(e.target.value)} rows={12}
+                className="input font-mono text-sm resize-y" placeholder="Write your lesson..." />
             )}
           </div>
-
-          {/* Publish */}
-          <button
-            onClick={handlePublish}
+          <button onClick={handlePublish}
             disabled={!title.trim() || !content.trim() || publishing}
-            className="w-full btn-chunky btn-chunky-primary px-6 py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none"
-          >
-            {publishing ? 'Publishing to Shelby...' : 'Publish to Shelby 🚀'}
+            className="btn btn-green btn-lg w-full disabled:opacity-50 disabled:cursor-not-allowed">
+            {publishing ? 'Publishing...' : 'Publish to Shelby'}
           </button>
-
-          {error && (
-            <p className="text-sm text-red-400 text-center font-bold">{error}</p>
-          )}
-
-          <p className="text-xs text-[var(--color-text-muted)] text-center font-semibold">
-            Your lesson will be stored as a blob on Shelby Protocol for 90 days.
-            Verified by merkle proof on Aptos blockchain.
+          {error && <p className="text-xs text-[var(--color-red)] text-center font-bold">{error}</p>}
+          <p className="text-[11px] text-[var(--color-text-muted)] text-center font-semibold">
+            Stored on Shelby Protocol for 90 days. Verified by merkle proof on Aptos.
           </p>
         </div>
 
-        {/* Right: Live Preview */}
         <div className="hidden lg:block">
-          <div className="sticky top-24">
-            <h3 className="text-sm font-bold text-[var(--color-text-muted)] mb-3">Live Preview</h3>
-            <div className="card-duo p-6 max-h-[calc(100vh-8rem)] overflow-auto">
-              {content.trim() ? (
-                <LessonViewer content={content} />
-              ) : (
-                <p className="text-[var(--color-text-muted)] text-center py-8 font-semibold">
-                  Start writing to see a preview...
+          <div className="sticky top-20">
+            <h3 className="text-xs font-bold text-[var(--color-text-muted)] mb-2">Live Preview</h3>
+            <div className="card p-5 max-h-[calc(100vh-7rem)] overflow-auto">
+              {content.trim() ? <LessonViewer content={content} /> : (
+                <p className="text-[var(--color-text-muted)] text-center py-8 text-sm font-semibold">
+                  Start writing to see preview...
                 </p>
               )}
             </div>

@@ -9,80 +9,66 @@ export function Home() {
 
   return (
     <div>
-      {/* Hero — Duolingo-style bold & playful */}
-      <section className="relative overflow-hidden bg-[var(--color-mauve)]">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-[var(--color-petal)]" />
-          <div className="absolute bottom-10 right-20 w-48 h-48 rounded-full bg-[var(--color-petal)]" />
-          <div className="absolute top-1/2 left-1/3 w-20 h-20 rounded-full bg-[var(--color-chalk)]" />
-        </div>
-        <div className="max-w-6xl mx-auto px-4 py-20 md:py-28 relative">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[var(--color-smoke)]/40 border-2 border-[var(--color-petal)]/30 text-sm font-bold text-[var(--color-petal-light)] mb-6">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-accent-green)] animate-pulse" />
-              Powered by Shelby Protocol
-            </div>
+      {/* ─── Hero ─── */}
+      <section className="section-mauve">
+        <div className="max-w-3xl mx-auto px-4 py-16 md:py-24 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-sm font-bold text-[var(--color-petal-light)] mb-8">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-green)] animate-pulse" />
+            Powered by Shelby Protocol
+          </div>
 
-            <h1 className="text-4xl md:text-6xl font-black text-[var(--color-chalk)] mb-6 leading-tight tracking-tight">
-              Learn anything.{' '}
-              <span className="text-[var(--color-petal)]">
-                Pay per lesson.
-              </span>
-            </h1>
+          <h1 className="text-5xl md:text-7xl font-black text-[var(--color-chalk)] mb-4 leading-[1.1] tracking-tight">
+            Learn anything.
+          </h1>
+          <h1 className="text-5xl md:text-7xl font-black text-[var(--color-petal)] mb-8 leading-[1.1] tracking-tight">
+            Pay per lesson.
+          </h1>
 
-            <p className="text-lg md:text-xl text-[var(--color-chalk)]/60 mb-10 max-w-2xl mx-auto font-semibold">
-              Micro-lessons stored on decentralized storage. Educators earn 100% of revenue.
-              No middleman. No platform fees. Just knowledge.
-            </p>
+          <p className="text-base md:text-lg text-[var(--color-chalk)]/50 mb-10 max-w-lg mx-auto font-bold leading-relaxed">
+            Micro-lessons on decentralized storage. Educators earn 100%.
+            No middleman. No fees. Just knowledge.
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/explore"
-                className="btn-chunky btn-chunky-primary px-8 py-4 text-lg"
-              >
-                Start Learning
-              </Link>
-              <Link
-                to="/create"
-                className="btn-chunky btn-chunky-secondary px-8 py-4 text-lg"
-              >
-                Start Teaching
-              </Link>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link to="/explore" className="btn btn-green btn-lg">
+              Start Learning
+            </Link>
+            <Link to="/create" className="btn btn-secondary btn-lg">
+              Start Teaching
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats — Duolingo-style stat cards */}
-      <section className="bg-[var(--color-smoke)]">
-        <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* ─── Stats ─── */}
+      <section className="border-y-2 border-[var(--color-border)]">
+        <div className="max-w-5xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { value: '100%', label: 'Creator Revenue', icon: '💰' },
-            { value: '$0', label: 'Platform Fee', icon: '🎉' },
-            { value: '<1s', label: 'Data Access', icon: '⚡' },
-            { value: '∞', label: 'Censorship Resistance', icon: '🛡️' },
+            { value: '100%', label: 'Creator Revenue', color: 'var(--color-green)' },
+            { value: '$0', label: 'Platform Fee', color: 'var(--color-petal)' },
+            { value: '<1s', label: 'Data Access', color: 'var(--color-yellow)' },
+            { value: '∞', label: 'No Censorship', color: 'var(--color-blue)' },
           ].map(stat => (
-            <div key={stat.label} className="card-duo p-5 text-center">
-              <div className="text-2xl mb-2">{stat.icon}</div>
-              <div className="text-2xl md:text-3xl font-black text-[var(--color-chalk)]">{stat.value}</div>
-              <div className="text-xs text-[var(--color-text-muted)] mt-1 font-bold uppercase tracking-wide">{stat.label}</div>
+            <div key={stat.label} className="text-center py-3">
+              <div className="text-2xl md:text-3xl font-black" style={{ color: stat.color }}>{stat.value}</div>
+              <div className="text-xs text-[var(--color-text-muted)] mt-1 font-bold uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Categories — Duolingo-style grid */}
-      <section className="max-w-6xl mx-auto px-4 py-14">
-        <h2 className="text-2xl font-black text-[var(--color-chalk)] mb-8">Browse by Category</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      {/* ─── Categories ─── */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <h2 className="text-xl font-black text-[var(--color-chalk)] mb-6">Browse by Category</h2>
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {CATEGORIES.map(cat => (
             <Link
               key={cat.id}
               to={`/explore?category=${cat.id}`}
-              className="card-duo flex flex-col items-center gap-2.5 p-5 no-underline group"
+              className="card flex flex-col items-center gap-2 py-5 px-3 no-underline group text-center"
             >
-              <span className="text-3xl">{cat.icon}</span>
-              <span className="text-sm font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-chalk)] transition-colors">
+              <span className="text-2xl">{cat.icon}</span>
+              <span className="text-xs font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-chalk)] transition-colors">
                 {cat.label}
               </span>
             </Link>
@@ -90,14 +76,11 @@ export function Home() {
         </div>
       </section>
 
-      {/* Featured Lessons */}
-      <section className="max-w-6xl mx-auto px-4 pb-14">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-black text-[var(--color-chalk)]">Featured Lessons</h2>
-          <Link
-            to="/explore"
-            className="text-sm font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] no-underline"
-          >
+      {/* ─── Featured ─── */}
+      <section className="max-w-5xl mx-auto px-4 pb-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-black text-[var(--color-chalk)]">Featured Lessons</h2>
+          <Link to="/explore" className="text-sm font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] no-underline">
             View all →
           </Link>
         </div>
@@ -108,40 +91,23 @@ export function Home() {
         </div>
       </section>
 
-      {/* How it works — Duolingo step cards */}
-      <section className="bg-[var(--color-mauve)]">
-        <div className="max-w-6xl mx-auto px-4 py-16">
-          <h2 className="text-2xl font-black text-[var(--color-chalk)] mb-10 text-center">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ─── How it works ─── */}
+      <section className="section-mauve border-t-2 border-[var(--color-border)]">
+        <div className="max-w-5xl mx-auto px-4 py-14">
+          <h2 className="text-xl font-black text-[var(--color-chalk)] mb-8 text-center">How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              {
-                step: '1',
-                emoji: '✍️',
-                title: 'Create a Lesson',
-                desc: 'Write your lesson in Markdown. Set a price (or make it free). Choose a category.',
-              },
-              {
-                step: '2',
-                emoji: '🚀',
-                title: 'Publish to Shelby',
-                desc: 'Your lesson is stored as a blob on Shelby Protocol. Decentralized, verifiable, permanent.',
-              },
-              {
-                step: '3',
-                emoji: '💸',
-                title: 'Earn from Learners',
-                desc: 'Students pay with APT to access your lesson. You receive 100% of the payment.',
-              },
+              { num: '1', emoji: '✍️', title: 'Create', desc: 'Write your lesson in Markdown. Set a price or make it free.' },
+              { num: '2', emoji: '🚀', title: 'Publish', desc: 'Stored as a blob on Shelby Protocol. Decentralized & verifiable.' },
+              { num: '3', emoji: '💰', title: 'Earn', desc: 'Students pay with APT. You get 100%. No middleman.' },
             ].map(item => (
-              <div key={item.step} className="bg-[var(--color-mauve-light)] rounded-2xl p-6 text-center border-2 border-[var(--color-mauve-dark)]">
-                <div className="w-14 h-14 rounded-2xl bg-[var(--color-petal)]/15 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">{item.emoji}</span>
+              <div key={item.num} className="card p-6 text-center !bg-[var(--color-mauve-light)] !border-[var(--color-mauve-dark)]">
+                <div className="text-3xl mb-3">{item.emoji}</div>
+                <div className="w-8 h-8 rounded-full bg-[var(--color-petal)] text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
+                  {item.num}
                 </div>
-                <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-petal)] text-white font-black text-sm mb-3">
-                  {item.step}
-                </div>
-                <h3 className="text-lg font-extrabold text-[var(--color-chalk)] mb-2">{item.title}</h3>
-                <p className="text-sm text-[var(--color-chalk)]/60 font-semibold">{item.desc}</p>
+                <h3 className="text-base font-black text-[var(--color-chalk)] mb-1">{item.title}</h3>
+                <p className="text-sm text-[var(--color-chalk)]/50 font-semibold">{item.desc}</p>
               </div>
             ))}
           </div>

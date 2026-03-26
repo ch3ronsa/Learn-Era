@@ -5,57 +5,44 @@ import { shortAddress } from '../config'
 
 export function Profile() {
   const { address } = useParams<{ address: string }>()
-
-  if (!address) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <p className="text-[var(--color-text-muted)] font-semibold text-sm">No profile address provided.</p>
-      </div>
-    )
-  }
+  if (!address) return <div className="max-w-6xl mx-auto px-6 py-20 text-center"><p className="text-[var(--color-text-muted)]">No profile address.</p></div>
 
   const lessons = getDemoLessons().filter(l => l.author === address)
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-6 py-10">
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--color-petal)] to-[var(--color-mauve)] flex items-center justify-center text-white font-black text-lg border-b-4 border-[var(--color-mauve-dark)]">
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--color-petal)] to-[var(--color-mauve)] flex items-center justify-center text-white font-extrabold text-lg">
           {address.slice(2, 4).toUpperCase()}
         </div>
         <div>
-          <h1 className="text-xl font-black text-[var(--color-chalk)]">Educator Profile</h1>
-          <p className="text-xs text-[var(--color-text-muted)] font-mono font-bold">{shortAddress(address)}</p>
+          <h1 className="text-xl font-extrabold text-[var(--color-chalk)]">Educator Profile</h1>
+          <p className="text-xs text-[var(--color-text-muted)] font-mono">{shortAddress(address)}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        <div className="card p-4">
-          <p className="text-[11px] text-[var(--color-text-muted)] font-bold uppercase tracking-wider mb-1">Lessons</p>
-          <p className="text-2xl font-black text-[var(--color-chalk)]">{lessons.length}</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-[11px] text-[var(--color-text-muted)] font-bold uppercase tracking-wider mb-1">Categories</p>
-          <p className="text-2xl font-black text-[var(--color-chalk)]">{new Set(lessons.map(l => l.category)).size}</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-[11px] text-[var(--color-text-muted)] font-bold uppercase tracking-wider mb-1">Free</p>
-          <p className="text-2xl font-black text-[var(--color-green)]">{lessons.filter(l => l.price === 0).length}</p>
-        </div>
+      <div className="grid grid-cols-3 gap-5 mb-10">
+        {[
+          { label: 'Lessons', value: lessons.length },
+          { label: 'Categories', value: new Set(lessons.map(l => l.category)).size },
+          { label: 'Free', value: lessons.filter(l => l.price === 0).length, color: 'var(--color-green)' },
+        ].map(s => (
+          <div key={s.label} className="edu-card p-5">
+            <p className="text-xs text-[var(--color-text-muted)] mb-1 font-medium uppercase tracking-wider">{s.label}</p>
+            <p className="text-2xl font-extrabold" style={{ color: s.color || 'var(--color-chalk)' }}>{s.value}</p>
+          </div>
+        ))}
       </div>
 
-      <h2 className="text-lg font-black text-[var(--color-chalk)] mb-4">Published Lessons</h2>
+      <h2 className="text-lg font-extrabold text-[var(--color-chalk)] mb-5">Published Lessons</h2>
       {lessons.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {lessons.map(lesson => (
-            <LessonCard key={lesson.contentBlobName} lesson={lesson} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {lessons.map(lesson => <LessonCard key={lesson.contentBlobName} lesson={lesson} />)}
         </div>
       ) : (
-        <div className="text-center py-12 card border-dashed">
-          <p className="text-[var(--color-text-muted)] font-semibold text-sm">No lessons found.</p>
-          <Link to="/explore" className="text-[var(--color-petal)] text-sm no-underline mt-2 inline-block font-bold">
-            Back to Explore
-          </Link>
+        <div className="text-center py-16 edu-card">
+          <p className="text-[var(--color-text-muted)] mb-3">No lessons found.</p>
+          <Link to="/explore" className="text-[var(--color-petal)] text-sm no-underline font-semibold hover:underline">Back to Courses</Link>
         </div>
       )}
     </div>

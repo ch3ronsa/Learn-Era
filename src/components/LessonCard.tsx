@@ -13,56 +13,43 @@ export function LessonCard({ lesson }: LessonCardProps) {
   const timeAgo = getTimeAgo(lesson.createdAt)
 
   return (
-    <Link
-      to={`/lesson/${slug}`}
-      className="card block overflow-hidden no-underline group"
-    >
-      {/* Color accent top */}
-      <div className="h-1.5" style={{ backgroundColor: category.color }} />
+    <Link to={`/lesson/${slug}`} className="edu-card block no-underline group">
+      {/* Colored header area (like course thumbnail) */}
+      <div
+        className="h-32 relative flex items-center justify-center"
+        style={{ background: `linear-gradient(135deg, ${category.color}30, ${category.color}10)` }}
+      >
+        <span className="text-5xl opacity-60">{category.icon}</span>
+        {/* Price badge */}
+        <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold ${
+          lesson.price === 0
+            ? 'bg-[var(--color-green)] text-white'
+            : 'bg-[var(--color-petal)] text-white'
+        }`}>
+          {formatAPT(lesson.price)}
+        </span>
+        {/* Category badge */}
+        <span
+          className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white"
+          style={{ backgroundColor: category.color }}
+        >
+          {category.label}
+        </span>
+      </div>
 
-      <div className="p-4">
-        {/* Category + Price */}
-        <div className="flex items-center justify-between mb-3">
-          <span
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold"
-            style={{ backgroundColor: category.color + '20', color: category.color }}
-          >
-            {category.icon} {category.label}
-          </span>
-          <span className={`text-xs font-black ${lesson.price === 0 ? 'text-[var(--color-green)]' : 'text-[var(--color-petal)]'}`}>
-            {formatAPT(lesson.price)}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-[15px] font-extrabold text-[var(--color-chalk)] mb-1.5 group-hover:text-[var(--color-petal-light)] transition-colors leading-snug">
+      <div className="p-5">
+        <h3 className="text-[15px] font-bold text-[var(--color-chalk)] mb-2 group-hover:text-[var(--color-petal)] transition-colors leading-snug">
           {lesson.title}
         </h3>
-
-        {/* Description */}
-        <p className="text-xs text-[var(--color-text-muted)] mb-3 line-clamp-2 leading-relaxed">
+        <p className="text-xs text-[var(--color-text-muted)] mb-4 line-clamp-2 leading-relaxed">
           {lesson.description}
         </p>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between text-[11px] text-[var(--color-text-muted)] font-bold">
-          <span>{shortAddress(lesson.author)}</span>
+        {/* Divider */}
+        <div className="border-t border-[var(--color-border)] pt-3 flex items-center justify-between text-[11px] text-[var(--color-text-muted)]">
+          <span className="font-medium">{shortAddress(lesson.author)}</span>
           <span>{timeAgo}</span>
         </div>
-
-        {/* Tags */}
-        {lesson.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2.5">
-            {lesson.tags.slice(0, 3).map(tag => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded-md bg-[var(--color-smoke)] text-[10px] text-[var(--color-text-muted)] font-bold"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </Link>
   )

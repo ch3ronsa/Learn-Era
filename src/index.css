@@ -1,21 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "highlight.js/styles/github-dark.css";
 
 @theme {
-  --font-sans: 'Nunito', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 
-  /* Chalk White — text */
   --color-chalk: #F0EBE3;
-  /* Muted Mauve — deep bg */
   --color-mauve: #3B2535;
   --color-mauve-light: #4d3346;
   --color-mauve-dark: #2a1a26;
-  /* Dusty Petal — accent */
   --color-petal: #D4869A;
   --color-petal-light: #e4a3b3;
   --color-petal-dark: #b06a7e;
-  /* Noir Smoke — card/surface */
   --color-smoke: #1C1A20;
   --color-smoke-light: #252329;
   --color-smoke-lighter: #333140;
@@ -28,116 +24,77 @@
 
   --color-text-main: #F0EBE3;
   --color-text-muted: #a8949c;
-  --color-border: #3d2f38;
+  --color-border: #352a30;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-smoke);
+  background: var(--color-smoke);
   color: var(--color-text-main);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Duolingo chunky button ─── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-weight: 800;
-  border-radius: 16px;
-  border: 2px solid transparent;
-  border-bottom: 4px solid transparent;
-  cursor: pointer;
-  transition: filter 0.1s ease;
-  text-decoration: none;
-  line-height: 1;
+/* ─── Edumel pill buttons ─── */
+.btn-pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-sans); font-weight: 700; font-size: 0.875rem;
+  padding: 12px 28px; border-radius: 9999px;
+  border: 2px solid transparent; cursor: pointer;
+  transition: all 0.25s ease; text-decoration: none; line-height: 1.2;
 }
-.btn:hover { filter: brightness(1.08); }
-.btn:active {
-  border-bottom-width: 2px;
-  margin-top: 2px;
+.btn-pill-primary {
+  background: var(--color-petal); color: #fff; border-color: var(--color-petal);
 }
+.btn-pill-primary:hover { background: var(--color-mauve); border-color: var(--color-mauve); }
+.btn-pill-outline {
+  background: transparent; color: var(--color-petal); border-color: var(--color-petal);
+}
+.btn-pill-outline:hover { background: var(--color-petal); color: #fff; }
+.btn-pill-white {
+  background: #fff; color: var(--color-mauve); border-color: #fff;
+}
+.btn-pill-white:hover { background: var(--color-petal); color: #fff; border-color: var(--color-petal); }
+.btn-pill-sm { padding: 8px 20px; font-size: 0.8rem; }
+.btn-pill-lg { padding: 14px 36px; font-size: 1rem; }
 
-.btn-primary {
-  background: var(--color-petal);
-  border-color: var(--color-petal-dark);
-  border-bottom-color: var(--color-petal-dark);
-  color: #fff;
-}
-.btn-secondary {
-  background: var(--color-smoke-lighter);
-  border-color: var(--color-smoke-lighter);
-  border-bottom-color: #26242c;
-  color: var(--color-chalk);
-}
-.btn-green {
-  background: var(--color-green);
-  border-color: var(--color-green-dark);
-  border-bottom-color: var(--color-green-dark);
-  color: #fff;
-}
-
-.btn-lg { padding: 14px 32px; font-size: 1rem; border-radius: 16px; }
-.btn-md { padding: 10px 24px; font-size: 0.875rem; border-radius: 14px; }
-.btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 12px; }
-
-/* ─── Duolingo card ─── */
-.card {
+/* ─── Edumel card ─── */
+.edu-card {
   background: var(--color-smoke-light);
-  border: 2px solid var(--color-border);
-  border-bottom-width: 4px;
-  border-radius: 16px;
-  transition: all 0.15s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
-.card:hover {
-  border-color: var(--color-petal);
-  transform: translateY(-2px);
-}
-
-/* ─── Input ─── */
-.input {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: var(--color-smoke);
-  border: 2px solid var(--color-border);
-  border-bottom-width: 4px;
-  color: var(--color-chalk);
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: border-color 0.15s ease;
-}
-.input::placeholder { color: var(--color-text-muted); opacity: 0.5; }
-.input:focus {
-  outline: none;
-  border-color: var(--color-petal);
+.edu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
 }
 
-/* ─── Section bg ─── */
-.section-mauve { background: var(--color-mauve); }
-.section-dark { background: var(--color-smoke); }
+/* ─── Edumel input ─── */
+.edu-input {
+  width: 100%; padding: 14px 18px; border-radius: 12px;
+  background: var(--color-smoke); border: 2px solid var(--color-border);
+  color: var(--color-chalk); font-family: var(--font-sans);
+  font-weight: 500; font-size: 0.9rem; transition: border-color 0.2s;
+}
+.edu-input::placeholder { color: var(--color-text-muted); opacity: 0.5; }
+.edu-input:focus { outline: none; border-color: var(--color-petal); }
 
-/* ─── Markdown / prose ─── */
-.prose h1 { font-size: 1.875rem; font-weight: 800; margin-bottom: 1rem; margin-top: 1.5rem; color: var(--color-chalk); }
-.prose h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; margin-top: 1.25rem; color: var(--color-chalk); }
-.prose h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; margin-top: 1rem; color: var(--color-chalk); }
+/* ─── Prose / Markdown ─── */
+.prose h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; margin-top: 1.5rem; color: var(--color-chalk); }
+.prose h2 { font-size: 1.375rem; font-weight: 700; margin-bottom: 0.75rem; margin-top: 1.25rem; color: var(--color-chalk); }
+.prose h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; margin-top: 1rem; color: var(--color-chalk); }
 .prose p { margin-bottom: 0.75rem; line-height: 1.75; color: var(--color-text-muted); }
 .prose ul, .prose ol { margin-bottom: 0.75rem; padding-left: 1.5rem; color: var(--color-text-muted); }
 .prose li { margin-bottom: 0.25rem; }
-.prose code { background: var(--color-smoke-lighter); padding: 0.15rem 0.4rem; border-radius: 8px; font-size: 0.875rem; }
-.prose pre { background: var(--color-smoke) !important; border: 2px solid var(--color-border); border-radius: 14px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
+.prose code { background: var(--color-smoke-lighter); padding: 2px 6px; border-radius: 6px; font-size: 0.85rem; }
+.prose pre { background: var(--color-smoke) !important; border: 1px solid var(--color-border); border-radius: 12px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
 .prose pre code { background: none; padding: 0; }
 .prose a { color: var(--color-petal-light); text-decoration: underline; }
-.prose blockquote { border-left: 4px solid var(--color-petal); padding-left: 1rem; margin-bottom: 0.75rem; color: var(--color-text-muted); font-style: italic; }
+.prose blockquote { border-left: 3px solid var(--color-petal); padding-left: 1rem; margin-bottom: 0.75rem; color: var(--color-text-muted); font-style: italic; }
 .prose strong { color: var(--color-chalk); }
 
 ::-webkit-scrollbar { width: 6px; }

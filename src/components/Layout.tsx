@@ -25,12 +25,12 @@ export function Layout() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map(item => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold no-underline transition-colors ${
+                className={`text-[15px] font-bold no-underline transition-colors ${
                   location.pathname === item.path
                     ? 'text-[var(--color-petal)]'
                     : 'text-[var(--color-text-muted)] hover:text-[var(--color-chalk)]'

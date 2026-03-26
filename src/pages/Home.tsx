@@ -10,70 +10,70 @@ export function Home() {
   return (
     <div>
       {/* ─── Hero: Edumel split layout ─── */}
-      <section className="bg-[var(--color-smoke)] pt-16 pb-20 md:pt-24 md:pb-32 overflow-hidden relative">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--color-petal)]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+      <section className="bg-[var(--color-smoke)] pt-24 pb-20 md:pt-32 md:pb-32 overflow-hidden relative">
+        {/* Subtle background glow centered */}
+        <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-[var(--color-petal)]/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left: Text */}
-            <div className="lg:col-span-7">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-[var(--color-petal)]/15 text-[var(--color-petal-light)] text-xs font-bold mb-6 tracking-wide">
-                DECENTRALIZED LEARNING
-              </span>
-              <h1 className="text-5xl md:text-[4rem] font-extrabold text-[var(--color-chalk)] leading-[1.1] mb-6">
-                Distant learning for further
-                <span className="text-[var(--color-petal)] block mt-2">expansion</span>
-              </h1>
-              <p className="text-[var(--color-chalk)]/60 mb-10 leading-relaxed max-w-lg text-lg">
-                The ultimate planning solution for people who want to reach their personal goals. Effortless, comfortable, and fully decentralized. No middleman.
-              </p>
-              
-              {/* Edumel-style Search Bar */}
-              <div className="relative max-w-md w-full mb-8">
-                <input 
-                  type="text" 
-                  placeholder="What do you want to learn?" 
-                  className="w-full bg-[var(--color-smoke-light)] text-[var(--color-chalk)] pl-6 pr-32 py-4 rounded-full border border-[var(--color-chalk)]/10 focus:outline-none focus:border-[var(--color-petal)] transition-colors"
-                />
-                <button className="absolute right-2 top-2 bottom-2 bg-[var(--color-petal)] text-white font-bold px-6 rounded-full hover:bg-[var(--color-mauve)] transition-colors">
-                  Search
-                </button>
-              </div>
-
-              {/* Popular Tags */}
-              <div className="flex items-center gap-3 text-sm text-[var(--color-text-muted)] flex-wrap">
-                <span className="font-medium mr-2">Popular:</span>
-                {['Development', 'Business', 'Design'].map(tag => (
-                  <Link key={tag} to={`/explore?q=${tag}`} className="hover:text-[var(--color-petal)] underline decoration-[var(--color-chalk)]/20 hover:decoration-[var(--color-petal)] underline-offset-4 transition-all">
-                    {tag}
-                  </Link>
-                ))}
-              </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-16">
+          {/* Left: Text */}
+          <div className="w-full md:w-1/2">
+            <span className="inline-block px-5 py-2 rounded-full bg-[var(--color-petal)]/10 text-[var(--color-petal-light)] text-sm font-bold mb-6 tracking-wider border border-[var(--color-petal)]/20">
+              DECENTRALIZED LEARNING
+            </span>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-[var(--color-chalk)] leading-tight mb-6">
+              Distant learning <br/> for further <br/>
+              <span className="text-[var(--color-petal)]">expansion</span>
+            </h1>
+            <p className="text-[var(--color-text-muted)] mb-10 leading-relaxed text-lg lg:text-xl font-medium max-w-lg">
+              The ultimate planning solution for people who want to reach their personal goals. Effortless, comfortable, and fully decentralized.
+            </p>
+            
+            {/* Edumel-style Search Bar */}
+            <div className="relative max-w-lg w-full mb-8 bg-white p-2 rounded-full flex items-center shadow-xl">
+              <input 
+                type="text" 
+                placeholder="What do you want to learn?" 
+                className="flex-1 bg-transparent text-gray-900 font-semibold pl-6 pr-4 py-3 focus:outline-none placeholder-gray-400"
+              />
+              <button className="bg-[var(--color-petal)] text-white text-sm font-bold px-8 py-3 rounded-full hover:bg-[var(--color-mauve)] transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                Search
+              </button>
             </div>
 
-            {/* Right: Floating Feature Cards mimicking target graphic */}
-            <div className="hidden lg:block lg:col-span-5 relative">
-              <div className="relative w-full aspect-square bg-[var(--color-mauve-dark)] rounded-full flex items-center justify-center border-4 border-[var(--color-smoke-light)] z-0">
-                <span className="text-9xl">🎓</span>
-              </div>
-              
-              {/* Floating cards */}
-              {[
-                { icon: '📜', title: 'Get Certificate', position: 'top-10 -left-10', delay: '0' },
-                { icon: '👨‍🏫', title: 'Skilled Instructors', position: 'bottom-20 -left-4', delay: '1000' },
-                { icon: '💻', title: 'Online Classes', position: 'top-1/2 -right-8', delay: '2000' },
-              ].map((f, i) => (
-                <div key={i} className={`absolute ${f.position} bg-[var(--color-smoke-light)] rounded-xl p-4 border border-[var(--color-chalk)]/10 shadow-xl flex items-center gap-3 animate-pulse`} style={{ animationDuration: '4s', animationDelay: `${f.delay}ms` }}>
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-smoke)] flex items-center justify-center text-xl">
-                    {f.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-[var(--color-chalk)]">{f.title}</h3>
-                  </div>
-                </div>
+            {/* Popular Tags */}
+            <div className="flex items-center gap-4 text-[15px] font-medium text-[var(--color-text-muted)] flex-wrap">
+              <span className="text-[var(--color-chalk)] font-bold">Popular:</span>
+              {['Development', 'Business', 'Design'].map(tag => (
+                <Link key={tag} to={`/explore?q=${tag}`} className="hover:text-[var(--color-petal)] underline decoration-[var(--color-text-muted)]/40 hover:decoration-[var(--color-petal)] underline-offset-4 transition-all">
+                  {tag}
+                </Link>
               ))}
             </div>
+          </div>
+
+          {/* Right: Elegant Floating Feature Cards mimicking target graphic exactly like Edumel */}
+          <div className="hidden md:flex w-full md:w-1/2 relative justify-center items-center h-[500px]">
+             {/* Center decorative element replacing heavy circle */}
+             <div className="absolute w-[300px] h-[300px] bg-gradient-to-tr from-[var(--color-petal)]/20 to-transparent rounded-full animate-spin-slow" style={{ animationDuration: '15s' }}></div>
+             <div className="relative w-64 h-64 bg-[var(--color-smoke-lighter)] rounded-[2.5rem] rotate-3 shadow-2xl border border-[var(--color-chalk)]/5 flex items-center justify-center z-10">
+                <span className="text-8xl transform -rotate-3 hover:scale-110 transition-transform cursor-pointer">🎓</span>
+             </div>
+            
+            {/* Floating cards */}
+            {[
+              { icon: '📜', title: 'Get Certificate', position: 'absolute top-10 left-0', delay: '0' },
+              { icon: '👨‍🏫', title: 'Skilled Instructors', position: 'absolute bottom-10 left-10', delay: '1000' },
+              { icon: '💻', title: 'Online Classes', position: 'absolute top-1/2 -right-4', delay: '2000' },
+            ].map((f, i) => (
+              <div key={i} className={`${f.position} bg-[var(--color-chalk)] rounded-2xl p-4 shadow-2xl flex items-center gap-4 z-20 animate-bounce`} style={{ animationDuration: '4s', animationDelay: `${f.delay}ms` }}>
+                <div className="w-12 h-12 rounded-full bg-[var(--color-petal)]/20 flex items-center justify-center text-2xl">
+                  {f.icon}
+                </div>
+                <div>
+                  <h3 className="text-sm font-extrabold text-[var(--color-smoke)]">{f.title}</h3>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

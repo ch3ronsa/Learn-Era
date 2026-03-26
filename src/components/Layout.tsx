@@ -25,20 +25,23 @@ export function Layout() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-10 ml-8">
-            {NAV_ITEMS.map(item => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-base font-bold no-underline transition-colors ${
-                  location.pathname === item.path
-                    ? 'text-[var(--color-petal)]'
-                    : 'text-[var(--color-text-muted)] hover:text-[var(--color-chalk)]'
-                }`}
-              >
-                {item.label}
-              </Link>
+          <nav className="hidden md:flex items-center ml-10">
+            <ul className="flex flex-row items-center gap-10 m-0 p-0 list-none">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className={`text-[15px] font-bold no-underline transition-colors ${
+                    location.pathname === item.path
+                      ? 'text-[var(--color-petal)]'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
             ))}
+            </ul>
           </nav>
 
           <WalletConnect />

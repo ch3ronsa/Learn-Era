@@ -31,7 +31,7 @@ export function Explore() {
   }, [allLessons, selectedCategory, searchQuery])
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-black text-[var(--color-chalk)] mb-1">Explore Lessons</h1>
         <p className="text-sm text-[var(--color-text-muted)] font-semibold">

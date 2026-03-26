@@ -8,7 +8,7 @@ export function Profile() {
 
   if (!address) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 text-center">
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <p className="text-[var(--color-text-muted)] font-semibold text-sm">No profile address provided.</p>
       </div>
     )
@@ -17,7 +17,7 @@ export function Profile() {
   const lessons = getDemoLessons().filter(l => l.author === address)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-8">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--color-petal)] to-[var(--color-mauve)] flex items-center justify-center text-white font-black text-lg border-b-4 border-[var(--color-mauve-dark)]">
           {address.slice(2, 4).toUpperCase()}

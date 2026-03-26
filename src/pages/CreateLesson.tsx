@@ -35,7 +35,7 @@ export function CreateLesson() {
 
   if (!connected) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 text-center">
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <div className="text-4xl mb-3">📝</div>
         <h2 className="text-lg font-black text-[var(--color-chalk)] mb-2">Connect Wallet to Create</h2>
         <p className="text-sm text-[var(--color-text-muted)] mb-6 font-semibold">
@@ -82,7 +82,7 @@ export function CreateLesson() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-black text-[var(--color-chalk)] mb-1">Create a Lesson</h1>
         <p className="text-sm text-[var(--color-text-muted)] font-semibold">

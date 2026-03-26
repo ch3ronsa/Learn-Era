@@ -11,29 +11,26 @@ export function Home() {
     <div>
       {/* ─── Hero ─── */}
       <section className="section-mauve">
-        <div className="max-w-3xl mx-auto px-4 py-16 md:py-24 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-sm font-bold text-[var(--color-petal-light)] mb-8">
+        <div className="max-w-xl mx-auto px-4 py-12 md:py-16 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-xs font-bold text-[var(--color-petal-light)] mb-5">
             <span className="w-2 h-2 rounded-full bg-[var(--color-green)] animate-pulse" />
             Powered by Shelby Protocol
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black text-[var(--color-chalk)] mb-4 leading-[1.1] tracking-tight">
-            Learn anything.
-          </h1>
-          <h1 className="text-5xl md:text-7xl font-black text-[var(--color-petal)] mb-8 leading-[1.1] tracking-tight">
-            Pay per lesson.
+          <h1 className="text-3xl md:text-4xl font-black text-[var(--color-chalk)] mb-2 leading-tight">
+            Learn anything.{' '}
+            <span className="text-[var(--color-petal)]">Pay per lesson.</span>
           </h1>
 
-          <p className="text-base md:text-lg text-[var(--color-chalk)]/50 mb-10 max-w-lg mx-auto font-bold leading-relaxed">
-            Micro-lessons on decentralized storage. Educators earn 100%.
-            No middleman. No fees. Just knowledge.
+          <p className="text-sm text-[var(--color-chalk)]/50 mb-6 max-w-md mx-auto font-semibold leading-relaxed">
+            Micro-lessons on decentralized storage. Educators earn 100%. No middleman.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link to="/explore" className="btn btn-green btn-lg">
+          <div className="flex items-center justify-center gap-3">
+            <Link to="/explore" className="btn btn-green btn-md">
               Start Learning
             </Link>
-            <Link to="/create" className="btn btn-secondary btn-lg">
+            <Link to="/create" className="btn btn-secondary btn-md">
               Start Teaching
             </Link>
           </div>
@@ -42,33 +39,33 @@ export function Home() {
 
       {/* ─── Stats ─── */}
       <section className="border-y-2 border-[var(--color-border)]">
-        <div className="max-w-5xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="max-w-3xl mx-auto px-4 py-5 grid grid-cols-4 gap-2">
           {[
-            { value: '100%', label: 'Creator Revenue', color: 'var(--color-green)' },
-            { value: '$0', label: 'Platform Fee', color: 'var(--color-petal)' },
-            { value: '<1s', label: 'Data Access', color: 'var(--color-yellow)' },
-            { value: '∞', label: 'No Censorship', color: 'var(--color-blue)' },
+            { value: '100%', label: 'Revenue', color: 'var(--color-green)' },
+            { value: '$0', label: 'Fees', color: 'var(--color-petal)' },
+            { value: '<1s', label: 'Access', color: 'var(--color-yellow)' },
+            { value: '∞', label: 'Uptime', color: 'var(--color-blue)' },
           ].map(stat => (
-            <div key={stat.label} className="text-center py-3">
-              <div className="text-2xl md:text-3xl font-black" style={{ color: stat.color }}>{stat.value}</div>
-              <div className="text-xs text-[var(--color-text-muted)] mt-1 font-bold uppercase tracking-wider">{stat.label}</div>
+            <div key={stat.label} className="text-center py-2">
+              <div className="text-lg md:text-xl font-black" style={{ color: stat.color }}>{stat.value}</div>
+              <div className="text-[10px] text-[var(--color-text-muted)] mt-0.5 font-bold uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ─── Categories ─── */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <h2 className="text-xl font-black text-[var(--color-chalk)] mb-6">Browse by Category</h2>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+      <section className="max-w-3xl mx-auto px-4 py-10">
+        <h2 className="text-base font-black text-[var(--color-chalk)] mb-4">Browse by Category</h2>
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           {CATEGORIES.map(cat => (
             <Link
               key={cat.id}
               to={`/explore?category=${cat.id}`}
-              className="card flex flex-col items-center gap-2 py-5 px-3 no-underline group text-center"
+              className="card flex flex-col items-center gap-1.5 py-3 px-2 no-underline group text-center"
             >
-              <span className="text-2xl">{cat.icon}</span>
-              <span className="text-xs font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-chalk)] transition-colors">
+              <span className="text-xl">{cat.icon}</span>
+              <span className="text-[11px] font-bold text-[var(--color-text-muted)] group-hover:text-[var(--color-chalk)] transition-colors">
                 {cat.label}
               </span>
             </Link>
@@ -77,15 +74,15 @@ export function Home() {
       </section>
 
       {/* ─── Featured ─── */}
-      <section className="max-w-5xl mx-auto px-4 pb-12">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-black text-[var(--color-chalk)]">Featured Lessons</h2>
+      <section className="max-w-3xl mx-auto px-4 pb-10">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-black text-[var(--color-chalk)]">Featured Lessons</h2>
           <Link to="/explore" className="text-sm font-bold text-[var(--color-petal)] hover:text-[var(--color-petal-light)] no-underline">
             View all →
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {featured.map(lesson => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {featured.slice(0, 3).map(lesson => (
             <LessonCard key={lesson.contentBlobName} lesson={lesson} />
           ))}
         </div>
@@ -93,21 +90,21 @@ export function Home() {
 
       {/* ─── How it works ─── */}
       <section className="section-mauve border-t-2 border-[var(--color-border)]">
-        <div className="max-w-5xl mx-auto px-4 py-14">
-          <h2 className="text-xl font-black text-[var(--color-chalk)] mb-8 text-center">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="max-w-3xl mx-auto px-4 py-10">
+          <h2 className="text-base font-black text-[var(--color-chalk)] mb-6 text-center">How It Works</h2>
+          <div className="grid grid-cols-3 gap-3">
             {[
-              { num: '1', emoji: '✍️', title: 'Create', desc: 'Write your lesson in Markdown. Set a price or make it free.' },
-              { num: '2', emoji: '🚀', title: 'Publish', desc: 'Stored as a blob on Shelby Protocol. Decentralized & verifiable.' },
-              { num: '3', emoji: '💰', title: 'Earn', desc: 'Students pay with APT. You get 100%. No middleman.' },
+              { num: '1', emoji: '✍️', title: 'Create', desc: 'Write in Markdown. Set a price.' },
+              { num: '2', emoji: '🚀', title: 'Publish', desc: 'Stored on Shelby. Decentralized.' },
+              { num: '3', emoji: '💰', title: 'Earn', desc: 'Get 100% of payments in APT.' },
             ].map(item => (
-              <div key={item.num} className="card p-6 text-center !bg-[var(--color-mauve-light)] !border-[var(--color-mauve-dark)]">
-                <div className="text-3xl mb-3">{item.emoji}</div>
-                <div className="w-8 h-8 rounded-full bg-[var(--color-petal)] text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
+              <div key={item.num} className="card p-4 text-center !bg-[var(--color-mauve-light)] !border-[var(--color-mauve-dark)]">
+                <div className="text-xl mb-2">{item.emoji}</div>
+                <div className="w-6 h-6 rounded-full bg-[var(--color-petal)] text-white font-black text-[11px] flex items-center justify-center mx-auto mb-2">
                   {item.num}
                 </div>
-                <h3 className="text-base font-black text-[var(--color-chalk)] mb-1">{item.title}</h3>
-                <p className="text-sm text-[var(--color-chalk)]/50 font-semibold">{item.desc}</p>
+                <h3 className="text-sm font-black text-[var(--color-chalk)] mb-1">{item.title}</h3>
+                <p className="text-[11px] text-[var(--color-chalk)]/50 font-semibold leading-snug">{item.desc}</p>
               </div>
             ))}
           </div>

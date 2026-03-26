@@ -15,7 +15,7 @@ export function Layout() {
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-[var(--color-mauve)] sticky top-0 z-50 border-b-2 border-[var(--color-mauve-dark)]">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2 no-underline">
               <div className="w-9 h-9 rounded-xl bg-[var(--color-petal)] flex items-center justify-center text-white font-black text-xs border-b-[3px] border-[var(--color-petal-dark)]">
@@ -72,7 +72,7 @@ export function Layout() {
       </main>
 
       <footer className="hidden md:block border-t-2 border-[var(--color-border)] py-5">
-        <div className="max-w-5xl mx-auto px-4 flex items-center justify-between">
+        <div className="max-w-3xl mx-auto px-4 flex items-center justify-between">
           <p className="text-xs text-[var(--color-text-muted)] font-bold">
             Built on{' '}
             <a href="https://shelby.xyz" target="_blank" rel="noopener noreferrer" className="text-[var(--color-petal)] hover:underline">Shelby</a>

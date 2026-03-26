@@ -4,7 +4,6 @@ import { WalletConnect } from './WalletConnect'
 const NAV_ITEMS = [
   { path: '/', label: 'Home' },
   { path: '/explore', label: 'Courses' },
-  { path: '/create', label: 'Create' },
   { path: '/dashboard', label: 'Dashboard' },
 ]
 
@@ -12,101 +11,84 @@ export function Layout() {
   const location = useLocation()
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Edumel-style header */}
-      <header className="sticky top-0 z-50 bg-[var(--color-smoke)]/95 backdrop-blur-md border-b border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5 no-underline">
-            <div className="w-9 h-9 rounded-lg bg-[var(--color-petal)] flex items-center justify-center text-white font-extrabold text-xs">
-              LE
-            </div>
-            <span className="text-lg font-extrabold text-[var(--color-chalk)]">
-              LearnEra
-            </span>
+    <div className="bg-surface font-body text-tertiary selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
+      {/* Top Navigation Bar */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none border-b border-slate-200/15 dark:border-slate-800/15">
+        <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+          <Link to="/" className="text-2xl font-extrabold tracking-tighter text-[#38007B] dark:text-white font-headline">
+            LearnEra
           </Link>
-
-          <nav className="hidden md:flex items-center ml-10">
-            <ul className="flex flex-row items-center gap-10 m-0 p-0 list-none">
+          <div className="hidden md:flex items-center gap-8 font-headline font-medium text-sm tracking-tight">
             {NAV_ITEMS.map((item) => (
-              <li key={item.path}>
-                <Link
-                  to={item.path}
-                  className={`text-[15px] font-bold no-underline transition-colors ${
-                    location.pathname === item.path
-                      ? 'text-[var(--color-petal)]'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
+              <Link
+                key={item.path}
+                to={item.path}
+                className={
+                  location.pathname === item.path
+                    ? "text-[#38007B] dark:text-white font-bold border-b-2 border-[#38007B] dark:border-[#a594f9] pb-1"
+                    : "text-slate-600 dark:text-slate-400 hover:text-[#38007B] dark:hover:text-white transition-colors"
+                }
+              >
+                {item.label}
+              </Link>
             ))}
-            </ul>
-          </nav>
-
-          <WalletConnect />
-        </div>
-      </header>
-
-      {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--color-smoke)]/95 backdrop-blur-md border-t border-[var(--color-border)] px-2 py-1.5">
-        <div className="flex items-center justify-around">
-          {[
-            { path: '/', label: 'Home', icon: '🏠' },
-            { path: '/explore', label: 'Courses', icon: '📚' },
-            { path: '/create', label: 'Create', icon: '✏️' },
-            { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-          ].map(item => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg text-[10px] font-semibold no-underline ${
-                location.pathname === item.path
-                  ? 'text-[var(--color-petal)]'
-                  : 'text-[var(--color-text-muted)]'
-              }`}
-            >
-              <span className="text-base">{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="hidden lg:block text-slate-600 hover:text-primary font-medium text-sm transition-colors">Login</button>
+            <div className="flex items-center justify-center bg-primary text-on-primary rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/10 overflow-hidden">
+               <WalletConnect />
+            </div>
+          </div>
         </div>
       </nav>
 
-      <main className="flex-1 pb-24 md:pb-0">
+      <main className="pt-24 flex-grow">
         <Outlet />
       </main>
 
-      {/* Edumel-style dark footer */}
-      <footer className="hidden md:block bg-[var(--color-smoke-lighter)] py-14 border-t border-[var(--color-border)]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-lg bg-[var(--color-petal)] flex items-center justify-center text-white font-extrabold text-xs">LE</div>
-                <span className="text-base font-extrabold text-[var(--color-chalk)]">LearnEra</span>
+      {/* Footer */}
+      <footer className="bg-slate-50 dark:bg-slate-950 w-full rounded-t-3xl mt-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto font-body text-sm text-slate-600 dark:text-slate-400">
+          <div className="col-span-1 md:col-span-1">
+            <div className="text-xl font-bold text-[#292929] dark:text-white mb-6">LearnEra</div>
+            <p className="leading-relaxed mb-6">Redefining education through transparency and decentralized ownership.</p>
+            <div className="flex gap-4">
+              <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors">
+                <span className="material-symbols-outlined text-lg">public</span>
               </div>
-              <p className="text-sm text-[var(--color-chalk)]/40 leading-relaxed">
-                Decentralized micro-learning marketplace. Pay per lesson. No middleman.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-[var(--color-chalk)] mb-3">Explore</h4>
-              <div className="flex flex-col gap-2">
-                <Link to="/explore" className="text-sm text-[var(--color-chalk)]/40 hover:text-[var(--color-petal)] no-underline transition-colors">All Courses</Link>
-                <Link to="/create" className="text-sm text-[var(--color-chalk)]/40 hover:text-[var(--color-petal)] no-underline transition-colors">Become Instructor</Link>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-[var(--color-chalk)] mb-3">Built On</h4>
-              <div className="flex flex-col gap-2">
-                <a href="https://shelby.xyz" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--color-chalk)]/40 hover:text-[var(--color-petal)] no-underline transition-colors">Shelby Protocol</a>
-                <a href="https://aptos.dev" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--color-chalk)]/40 hover:text-[var(--color-petal)] no-underline transition-colors">Aptos Blockchain</a>
+              <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors">
+                <span className="material-symbols-outlined text-lg">mail</span>
               </div>
             </div>
           </div>
-          <div className="border-t border-[var(--color-chalk)]/10 pt-5 text-center">
-            <p className="text-xs text-[var(--color-chalk)]/30">© 2026 LearnEra. Learn. Pay. Earn.</p>
+          <div>
+            <h4 className="font-bold text-tertiary dark:text-white mb-6">Explore</h4>
+            <ul className="space-y-4">
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="/explore">All Courses</Link></li>
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="/explore">Categories</Link></li>
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="#">Certifications</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold text-tertiary dark:text-white mb-6">Instructors</h4>
+            <ul className="space-y-4">
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="/create">Become Instructor</Link></li>
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="/create">Teaching Guide</Link></li>
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="#">Revenue Share</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold text-tertiary dark:text-white mb-6">Legal</h4>
+            <ul className="space-y-4">
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="#">Privacy Policy</Link></li>
+              <li><Link className="text-slate-500 hover:text-[#1357C9] dark:hover:text-blue-400 transition-colors" to="#">Terms of Service</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-slate-200 dark:border-slate-800/30 py-8 px-8 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-slate-500">© 2024 LearnEra. The Academic Atelier.</p>
+          <div className="flex gap-6">
+            <span className="text-xs font-bold text-primary px-3 py-1 bg-primary/5 rounded">v2.4.0</span>
           </div>
         </div>
       </footer>

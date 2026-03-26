@@ -35,6 +35,23 @@
   --font-headline: "Plus Jakarta Sans", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-label: "Inter", sans-serif;
+
+  /* Legacy aliases mapping the old dark theme variables to the new Academic Light Theme */
+  --color-chalk: #191c1d;    /* on-background */
+  --color-text-muted: #4a4453; /* on-surface-variant */
+  --color-smoke: #f8f9fa;      /* surface */
+  --color-smoke-light: #edeeef; /* surface-container */
+  --color-smoke-lighter: #e7e8e9; /* surface-container-high */
+  --color-petal: #38007b;      /* primary */
+  --color-petal-light: #5212a8; /* primary-container */
+  --color-mauve: #292929;      /* tertiary */
+  --color-mauve-light: #3f3f3f; /* tertiary-container */
+  --color-mauve-dark: #292929; /* tertiary */
+  --color-border: #ccc3d5;     /* outline-variant */
+  --color-red: #ba1a1a;        /* error */
+  --color-green: #1357c9;      /* secondary */
+  --color-yellow: #598cff;     /* secondary-container */
+  --color-blue: #dae2ff;       /* secondary-fixed */
 }
 
 body {
@@ -47,4 +64,26 @@ body {
 
 .editorial-gap {
   margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+@layer components {
+  .btn-pill {
+    @apply inline-flex items-center justify-center font-extrabold transition-all duration-300 rounded-full select-none cursor-pointer border border-transparent tracking-tight shadow hover:shadow-md;
+    text-decoration: none;
+  }
+  .btn-pill-primary {
+    @apply bg-primary text-on-primary hover:-translate-y-0.5;
+  }
+  .btn-pill-outline {
+    @apply border-outline-variant text-primary hover:bg-surface-container hover:-translate-y-0.5;
+  }
+  .btn-pill-sm {
+    @apply px-5 py-2 text-xs;
+  }
+  .btn-pill-md {
+    @apply px-6 py-2.5 text-sm;
+  }
+  .btn-pill-lg {
+    @apply px-8 py-3.5 text-[15px];
+  }
 }

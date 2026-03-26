@@ -27,23 +27,23 @@ export function Home() {
             <p className="text-[var(--color-text-muted)] mb-12 leading-relaxed text-lg md:text-xl font-medium max-w-xl mx-auto lg:mx-0">
               The ultimate planning solution for people who want to reach their personal goals. Effortless, comfortable, and fully decentralized.
             </p>
-             {/* Edumel-style Search Bar */}
-            <div className="relative max-w-xl mx-auto lg:mx-0 w-full mb-10 bg-white p-2 rounded-full flex items-center shadow-xl">
+            {/* Edumel-style Search Bar */}
+            <div className="relative max-w-xl mx-auto lg:mx-0 w-full mb-10 bg-white p-2 rounded-full flex items-center shadow-2xl">
               <input 
                 type="text" 
                 placeholder="What do you want to learn?" 
                 className="flex-1 bg-transparent text-gray-900 text-base font-bold placeholder-gray-500 pl-6 pr-4 py-3 focus:outline-none"
               />
-              <button className="bg-[#f14d5d] text-white text-base font-bold px-8 py-4 rounded-full hover:bg-red-600 transition-all shadow-md transform hover:-translate-y-0.5 whitespace-nowrap">
+              <button className="bg-[var(--color-petal)] text-[var(--color-smoke)] text-base font-extrabold px-8 py-4 rounded-full hover:bg-[var(--color-petal-light)] transition-all shadow-md transform hover:-translate-y-0.5 whitespace-nowrap">
                 Search
               </button>
             </div>
 
             {/* Popular Tags */}
-            <div className="flex items-center justify-center lg:justify-start gap-4 text-sm font-bold text-gray-400 flex-wrap">
+            <div className="flex items-center justify-center lg:justify-start gap-4 text-sm font-bold text-[var(--color-text-muted)] flex-wrap">
               <span className="text-[var(--color-chalk)]">Popular:</span>
               {['Development', 'Business', 'Design'].map(tag => (
-                <Link key={tag} to={`/explore?q=${tag}`} className="hover:text-[var(--color-petal)] underline decoration-gray-500/40 hover:decoration-[var(--color-petal)] underline-offset-4 transition-all">
+                <Link key={tag} to={`/explore?q=${tag}`} className="hover:text-[var(--color-petal)] underline decoration-[var(--color-text-muted)]/40 hover:decoration-[var(--color-petal)] underline-offset-4 transition-all">
                   {tag}
                 </Link>
               ))}
@@ -51,28 +51,28 @@ export function Home() {
           </div>
 
           {/* Right: Perfect Edumel Graphic Structure */}
-          <div className="hidden lg:flex w-full lg:w-1/2 relative justify-center items-center select-none">
+          <div className="hidden lg:flex w-full lg:w-1/2 relative justify-center items-center select-none pt-10">
              <div className="relative w-full max-w-xl aspect-square flex items-center justify-center">
                  {/* Soft glow replacing background chaos */}
-                 <div className="absolute inset-0 bg-gradient-to-tr from-[#f14d5d]/10 to-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+                 <div className="absolute inset-0 bg-[var(--color-petal)]/10 rounded-full blur-[100px] pointer-events-none"></div>
                  
                  {/* Main floating illustration */}
                  <img 
                     src="/hero_illustration.png" 
                     alt="Learn Online" 
-                    className="relative z-10 w-full h-full object-contain transform hover:scale-105 transition-transform duration-700 hover:rotate-2"
+                    className="relative z-10 w-[95%] h-[95%] object-contain transform hover:scale-105 transition-transform duration-700 hover:rotate-2"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                  />
                  
                  {/* Edumel Floating Badges */}
-                 <div className="absolute top-[15%] left-[0%] bg-white rounded-xl p-4 pr-6 shadow-2xl flex items-center gap-4 z-20 animate-bounce hover:scale-110 transition-transform cursor-pointer" style={{ animationDuration: '3s' }}>
-                    <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl">📜</div>
-                    <div className="flex flex-col"><h3 className="text-sm font-black text-gray-800 leading-tight">Get Certificate</h3><span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">Verified Proof</span></div>
+                 <div className="absolute top-[10%] left-[-15%] xl:left-[-25%] bg-[var(--color-smoke-lighter)] border border-[var(--color-border)] rounded-xl p-4 pr-6 shadow-2xl flex items-center gap-4 z-20 animate-bounce hover:scale-110 transition-transform cursor-pointer" style={{ animationDuration: '3.5s' }}>
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-petal)]/10 flex items-center justify-center text-3xl">📜</div>
+                    <div className="flex flex-col"><h3 className="text-sm font-black text-[var(--color-chalk)] leading-tight">Get Certificate</h3><span className="text-[10px] font-bold text-[var(--color-text-muted)] mt-1 uppercase tracking-widest">Verified Proof</span></div>
                  </div>
                  
-                 <div className="absolute bottom-[20%] right-[0%] bg-white rounded-xl p-4 pr-6 shadow-2xl flex items-center gap-4 z-20 animate-bounce hover:scale-110 transition-transform cursor-pointer" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl">💻</div>
-                    <div className="flex flex-col"><h3 className="text-sm font-black text-gray-800 leading-tight">Online Classes</h3><span className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">Learn anywhere</span></div>
+                 <div className="absolute bottom-[20%] right-[-15%] xl:right-[-25%] bg-[var(--color-smoke-lighter)] border border-[var(--color-border)] rounded-xl p-4 pr-6 shadow-2xl flex items-center gap-4 z-20 animate-bounce hover:scale-110 transition-transform cursor-pointer" style={{ animationDuration: '4.2s', animationDelay: '1s' }}>
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-mauve-light)] flex items-center justify-center text-3xl">💻</div>
+                    <div className="flex flex-col"><h3 className="text-sm font-black text-[var(--color-chalk)] leading-tight">Online Classes</h3><span className="text-[10px] font-bold text-[var(--color-text-muted)] mt-1 uppercase tracking-widest">Learn anywhere</span></div>
                  </div>
              </div>
           </div>
@@ -99,7 +99,7 @@ export function Home() {
       {/* ─── Browse by Category (Horizontal Pills MATCHING Edumel) ─── */}
       <section className="bg-[var(--color-smoke-light)] border-t border-[var(--color-border)]">
         <div className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <span className="text-[11px] font-black text-blue-500 tracking-[0.2em] uppercase mb-4 block">Top Categories</span>
+          <span className="text-[11px] font-black text-[var(--color-petal)] tracking-[0.2em] uppercase mb-4 block">Top Categories</span>
           <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--color-chalk)] mb-14">Browse Courses By Category</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
@@ -150,20 +150,20 @@ export function Home() {
             
             {/* Left: 4 Steps Grid */}
             <div>
-              <span className="text-[11px] font-black text-blue-500 tracking-[0.2em] uppercase mb-4 block">How To Start</span>
+              <span className="text-[11px] font-black text-[var(--color-petal)] tracking-[0.2em] uppercase mb-4 block">How To Start</span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--color-chalk)] mb-12 leading-[1.2]">
                 4 steps start <br/> your journey <br/> with us
               </h2>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12">
                 {[
-                  { num: '01', color: 'bg-[#e91e63]', title: 'Signup with all info', desc: 'Securely create your decentralized identity on the blockchain.' },
-                  { num: '02', color: 'bg-[#00c853]', title: 'Take your Admission', desc: 'Find the best course instantly with zero middlemen.' },
-                  { num: '03', color: 'bg-[#2962ff]', title: 'Learn from online', desc: 'Study at your own pace anytime, anywhere.' },
-                  { num: '04', color: 'bg-[#d81b60]', title: 'Get certificate', desc: 'Receive verifiable digital proofs for your achievements.' },
+                  { num: '01', style: 'bg-[var(--color-petal)] text-[var(--color-smoke)] border-transparent', title: 'Signup with all info', desc: 'Securely create your decentralized identity on the blockchain.' },
+                  { num: '02', style: 'bg-transparent border-[var(--color-petal)] text-[var(--color-petal)]', title: 'Take your Admission', desc: 'Find the best course instantly with zero middlemen.' },
+                  { num: '03', style: 'bg-transparent border-[var(--color-text-muted)] text-[var(--color-text-muted)]', title: 'Learn from online', desc: 'Study at your own pace anytime, anywhere.' },
+                  { num: '04', style: 'bg-[var(--color-mauve-light)] border-[var(--color-petal-light)] text-[var(--color-petal-light)]', title: 'Get certificate', desc: 'Receive verifiable digital proofs for your achievements.' },
                 ].map((item, i) => (
                   <div key={i} className="flex flex-col sm:flex-row items-start gap-5">
-                    <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-extrabold text-lg shrink-0 shadow-lg ${item.color}`}>
+                    <div className={`w-14 h-14 border-2 rounded-full flex items-center justify-center font-extrabold text-lg shrink-0 shadow-lg ${item.style}`}>
                       {item.num}
                     </div>
                     <div>
@@ -176,14 +176,14 @@ export function Home() {
             </div>
 
             {/* Right: Video/Image Block with Play Button */}
-            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-[0_20px_50px_rgba(0,0,0,0.5)] group w-full bg-[var(--color-smoke-light)] flex items-center justify-center border border-[var(--color-chalk)]/5">
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-[0_20px_50px_rgba(0,0,0,0.5)] group w-full bg-[var(--color-smoke-light)] flex items-center justify-center border border-[var(--color-border)]">
                {/* Abstract placeholder for the video thumbnail */}
-               <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] to-[#831843] opacity-50 mix-blend-overlay z-0"></div>
-               <div className="absolute inset-0 flex items-center justify-center opacity-10 blur-sm pointer-events-none z-0"><span className="text-[200px]">👩‍💻</span></div>
+               <div className="absolute inset-0 bg-[var(--color-mauve)] opacity-50 z-0"></div>
+               <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] blur-[2px] pointer-events-none z-0"><span className="text-[300px]">👩‍💻</span></div>
                
                {/* Central Play Button */}
-               <button className="relative z-10 w-24 h-24 rounded-full bg-[#f14d5d] shadow-[0_10px_30px_rgba(241,77,93,0.6)] flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                 <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-2"></div>
+               <button className="relative z-10 w-24 h-24 rounded-full bg-[var(--color-petal)] shadow-[0_10px_30px_rgba(212,134,154,0.3)] flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                 <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-[var(--color-smoke)] border-b-[12px] border-b-transparent ml-2"></div>
                </button>
             </div>
             

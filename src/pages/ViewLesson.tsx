@@ -5,7 +5,7 @@ import { useWalletState } from '../components/WalletConnect'
 import { getDemoLesson } from '../lib/demo-lessons'
 import { downloadBlobAsText } from '../lib/blob-helpers'
 import { getCategoryById } from '../lib/categories'
-import { buildPaymentTransaction, isLessonPaid, markLessonPaid } from '../lib/payment'
+import { buildPaymentTransaction, isLessonPaid, markLessonPaid, verifyPaymentOnChain, markPaymentVerified, getPaymentRecord } from '../lib/payment'
 import { formatAPT, shortAddress, getShelbyClient, makeMetaBlobName } from '../config'
 import { useState, useEffect } from 'react'
 import type { Lesson, LessonMetadata } from '../types'
@@ -22,6 +22,18 @@ export function ViewLesson() {
   const [paying, setPaying] = useState(false)
   const [payError, setPayError] = useState('')
   const [error, setError] = useState('')
+
+  // On-chain verify existing payment on load
+  useEffect(() => {
+    if (!slug || !lesson || lesson.price === 0 || !unlocked) return
+    const record = getPaymentRecord(slug)
+    if (record && !record.verified) {
+      verifyPaymentOnChain(record.txHash, lesson.author, lesson.price).then(verified => {
+        if (verified) markPaymentVerified(slug)
+        else if (!verified) setUnlocked(false) // Payment invalid — re-lock
+      })
+    }
+  }, [slug, lesson, unlocked])
 
   useEffect(() => {
     if (!slug) return
@@ -119,7 +131,13 @@ export function ViewLesson() {
                     const tx = buildPaymentTransaction(lesson.author, lesson.price)
                     const result = await wallet.signAndSubmitTransaction(tx)
                     const hash = typeof result === 'object' && 'hash' in result ? result.hash : String(result)
-                    markLessonPaid(slug, hash); setUnlocked(true)
+                    markLessonPaid(slug, hash)
+
+                    // Verify on-chain (non-blocking — unlock immediately, verify in background)
+                    setUnlocked(true)
+                    verifyPaymentOnChain(hash, lesson.author, lesson.price).then(verified => {
+                      if (verified) markPaymentVerified(slug)
+                    })
                   } catch (err) { setPayError(err instanceof Error ? err.message : 'Payment failed.') }
                   finally { setPaying(false) }
                 }}

@@ -23,3 +23,19 @@ export interface ShelbyBlobInfo {
   size: number
   expiration_timestamp_usecs: string
 }
+
+export interface UserProfile {
+  address: string
+  displayName: string
+  bio: string
+  avatar?: string
+  role: 'student' | 'educator'
+  expertise?: string[]
+  socialLinks?: {
+    twitter?: string
+    github?: string
+    website?: string
+  }
+  createdAt: number
+  updatedAt: number
+}

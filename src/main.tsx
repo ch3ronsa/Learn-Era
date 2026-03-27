@@ -8,6 +8,7 @@ import { AptosWalletAdapterProvider } from '@aptos-labs/wallet-adapter-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ShelbyClientProvider } from '@shelby-protocol/react'
 import { getShelbyClient } from './config'
+import { ProfileProvider } from './contexts/ProfileContext'
 import './index.css'
 import App from './App'
 
@@ -18,7 +19,9 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <AptosWalletAdapterProvider autoConnect={false}>
         <ShelbyClientProvider client={getShelbyClient()}>
-          <App />
+          <ProfileProvider>
+            <App />
+          </ProfileProvider>
         </ShelbyClientProvider>
       </AptosWalletAdapterProvider>
     </QueryClientProvider>

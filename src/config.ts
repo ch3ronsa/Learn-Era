@@ -23,6 +23,7 @@ export function getShelbyClient(): ShelbyClient {
 export const BLOB_PREFIX = 'shelbylearn'
 export const META_PREFIX = `${BLOB_PREFIX}/meta`
 export const CONTENT_PREFIX = `${BLOB_PREFIX}/content`
+export const PROFILE_PREFIX = `${BLOB_PREFIX}/profile`
 
 export const DEFAULT_EXPIRATION_DAYS = 90
 export const MICRO_PER_SECOND = 1_000_000
@@ -33,6 +34,10 @@ export function makeMetaBlobName(shortAddr: string, slug: string) {
 
 export function makeContentBlobName(shortAddr: string, slug: string) {
   return `${CONTENT_PREFIX}/${shortAddr}/${slug}`
+}
+
+export function makeProfileBlobName(address: string) {
+  return `${PROFILE_PREFIX}/${address.slice(0, 10)}`
 }
 
 export function slugify(title: string): string {

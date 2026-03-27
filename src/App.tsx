@@ -6,6 +6,7 @@ import { CreateLesson } from './pages/CreateLesson'
 import { ViewLesson } from './pages/ViewLesson'
 import { Dashboard } from './pages/Dashboard'
 import { Profile } from './pages/Profile'
+import { EditProfile } from './pages/EditProfile'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/create" element={<CreateLesson />} />
           <Route path="/lesson/:slug" element={<ViewLesson />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/profile/:address" element={<Profile />} />
         </Route>
       </Routes>

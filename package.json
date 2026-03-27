@@ -15,6 +15,7 @@
     "@aptos-labs/wallet-adapter-react": "^7.2.8",
     "@shelby-protocol/react": "^1.0.3",
     "@shelby-protocol/sdk": "^0.2.4",
+    "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-query": "^5.95.2",
     "@telegram-apps/bridge": "^2.11.0",
     "@wallet-standard/core": "^1.1.1",

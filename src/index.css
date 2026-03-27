@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-primary: #38007b;
@@ -67,6 +68,12 @@ body {
 }
 
 @layer components {
+  .edu-input {
+    @apply w-full px-4 py-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors;
+  }
+  .edu-card {
+    @apply rounded-2xl border border-outline-variant/30 bg-surface-container-lowest shadow-sm;
+  }
   .btn-pill {
     @apply inline-flex items-center justify-center font-extrabold transition-all duration-300 rounded-full select-none cursor-pointer border border-transparent tracking-tight shadow hover:shadow-md;
     text-decoration: none;

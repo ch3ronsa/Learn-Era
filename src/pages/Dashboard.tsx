@@ -60,6 +60,11 @@ export function Dashboard() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      {isDemo && (
+        <div className="mb-6 px-4 py-3 rounded-xl bg-secondary/5 border border-secondary/20 text-xs text-[var(--color-text-muted)]">
+          <strong className="text-secondary">Shelby Testnet:</strong> Showing demo lessons. Publish your first lesson to see real data here.
+        </div>
+      )}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-extrabold text-[var(--color-chalk)] mb-1">Dashboard</h1>

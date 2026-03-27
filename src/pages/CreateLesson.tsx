@@ -104,7 +104,15 @@ export function CreateLesson() {
       navigate(`/lesson/${slug}`)
     } catch (err) {
       console.error('Upload failed:', err)
-      setError(err instanceof Error ? err.message : 'Upload failed.')
+      // Save draft to localStorage as fallback
+      try {
+        const drafts = JSON.parse(localStorage.getItem('shelbylearn_drafts') || '[]')
+        drafts.push({ title: title.trim(), description: description.trim(), category, tags: tags.split(',').map(t => t.trim()).filter(Boolean), content, contentType, videoUrl: videoUrl.trim(), price: parseFloat(price) || 0, savedAt: Date.now() })
+        localStorage.setItem('shelbylearn_drafts', JSON.stringify(drafts))
+        setError((err instanceof Error ? err.message : 'Upload failed.') + ' Draft saved locally.')
+      } catch {
+        setError(err instanceof Error ? err.message : 'Upload failed.')
+      }
     } finally { setPublishing(false); setUploadProgress('') }
   }
 

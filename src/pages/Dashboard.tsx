@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAccountBlobs } from '@shelby-protocol/react'
 import { useWalletState } from '../components/WalletConnect'
+import { useProfile } from '../contexts/ProfileContext'
 import { LessonCard } from '../components/LessonCard'
 import { getShelbyClient } from '../config'
 import { getDemoLessons } from '../lib/demo-lessons'
@@ -10,6 +11,7 @@ import { useState, useEffect } from 'react'
 
 export function Dashboard() {
   const { connected, address, connect } = useWalletState()
+  const { profile } = useProfile()
   const shelbyClient = getShelbyClient()
   const { data: blobs, isLoading } = useAccountBlobs({
     client: shelbyClient, account: address || '0x0',
@@ -38,6 +40,17 @@ export function Dashboard() {
         <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Connect to View Dashboard</h2>
         <p className="text-sm text-[var(--color-text-muted)] mb-6">Connect your wallet to see your lessons.</p>
         <button onClick={connect} className="btn-pill btn-pill-primary btn-pill-lg">Connect Wallet</button>
+      </div>
+    )
+  }
+
+  if (profile?.role !== 'educator') {
+    return (
+      <div className="max-w-6xl mx-auto px-6 py-20 text-center">
+        <div className="text-5xl mb-4">🎓</div>
+        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Become an Educator</h2>
+        <p className="text-sm text-[var(--color-text-muted)] mb-6">Complete your profile to access the educator dashboard and start publishing lessons.</p>
+        <Link to="/profile/edit" className="btn-pill btn-pill-primary btn-pill-lg">Set Up Profile</Link>
       </div>
     )
   }

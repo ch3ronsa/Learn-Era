@@ -1,16 +1,18 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useWallet } from '@aptos-labs/wallet-adapter-react'
 import { useUploadBlobs } from '@shelby-protocol/react'
 import { LessonViewer } from '../components/LessonViewer'
 import { CATEGORIES } from '../lib/categories'
 import type { Category, LessonMetadata } from '../types'
 import { useWalletState } from '../components/WalletConnect'
+import { useProfile } from '../contexts/ProfileContext'
 import { getShelbyClient, slugify, makeMetaBlobName, makeContentBlobName, MICRO_PER_SECOND, DEFAULT_EXPIRATION_DAYS } from '../config'
 
 export function CreateLesson() {
   const navigate = useNavigate()
   const { connected, connect, address } = useWalletState()
+  const { profile } = useProfile()
   const wallet = useWallet()
   const shelbyClient = getShelbyClient()
   const uploadBlobs = useUploadBlobs({ client: shelbyClient })
@@ -32,6 +34,17 @@ export function CreateLesson() {
         <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Connect Wallet to Create</h2>
         <p className="text-sm text-[var(--color-text-muted)] mb-6">You need a connected wallet to publish lessons.</p>
         <button onClick={connect} className="btn-pill btn-pill-primary btn-pill-lg">Connect Wallet</button>
+      </div>
+    )
+  }
+
+  if (profile?.role !== 'educator') {
+    return (
+      <div className="max-w-6xl mx-auto px-6 py-20 text-center">
+        <div className="text-5xl mb-4">🎓</div>
+        <h2 className="text-xl font-extrabold text-[var(--color-chalk)] mb-2">Become an Educator First</h2>
+        <p className="text-sm text-[var(--color-text-muted)] mb-6">Complete your profile to start creating and publishing lessons.</p>
+        <Link to="/profile/edit" className="btn-pill btn-pill-primary btn-pill-lg">Set Up Educator Profile</Link>
       </div>
     )
   }

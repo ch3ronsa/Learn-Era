@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import type { Lesson } from '../types'
+import { getProfileLocal } from '../lib/profile-storage'
 
 interface LessonCardProps {
   lesson: Lesson
 }
 
 export function LessonCard({ lesson }: LessonCardProps) {
+  const authorProfile = getProfileLocal(lesson.author)
   // We use placeholder images based on Category or just a hardcoded one for the new theme
   const getPlaceholderImage = (cat: string) => {
     if(cat === 'code') return "https://lh3.googleusercontent.com/aida-public/AB6AXuBEDekkyQzwSq4F8uW5qLBVfNPTNyGdDT772UdNq9pkbSqPSxWiQsnvugOjfWdUSIxcGhpaG4oGRnLAoA5N1FC4oQoioLPxYCaqQupfREZ1TVPVh_PXdL0q-uFMzwycmeIM32cpOrdm2Jb3-pBmZJRn_S7KWXLz0fASqQ-HploG3aWJaDdn3bSdLu4HiyBW1DihuecMUKyvkv5up0ASMXx2JK61oaymQsWMO4u1RE0HqKInSWBKQ8xwYb8t1Yeojch_Y2jo4SppYgiS";
@@ -30,10 +32,15 @@ export function LessonCard({ lesson }: LessonCardProps) {
         <div className="p-8">
           <h3 className="font-headline font-bold text-xl mb-3 group-hover:text-primary transition-colors line-clamp-2">{lesson.title}</h3>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full bg-slate-200"></div>
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-tertiary flex items-center justify-center text-white text-[10px] font-extrabold shrink-0">
+              {authorProfile?.displayName ? authorProfile.displayName.slice(0, 2).toUpperCase() : lesson.author.slice(2, 4).toUpperCase()}
+            </div>
             <span className="text-sm font-medium text-on-surface-variant truncate">
-              {lesson.author.slice(0, 6)}...{lesson.author.slice(-4)}
+              {authorProfile?.displayName || `${lesson.author.slice(0, 6)}...${lesson.author.slice(-4)}`}
             </span>
+            {authorProfile?.role === 'educator' && (
+              <span className="px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold shrink-0">✓</span>
+            )}
           </div>
           <div className="flex justify-between items-center pt-6 border-t border-outline-variant/15">
             <span className="font-headline font-bold text-2xl text-primary">

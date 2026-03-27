@@ -1,6 +1,7 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useWallet } from '@aptos-labs/wallet-adapter-react'
 import { LessonViewer } from '../components/LessonViewer'
+import { VideoPlayer } from '../components/VideoPlayer'
 import { useWalletState } from '../components/WalletConnect'
 import { getDemoLesson } from '../lib/demo-lessons'
 import { downloadBlobAsText } from '../lib/blob-helpers'
@@ -114,7 +115,16 @@ export function ViewLesson() {
 
       {/* Content or Paywall */}
       {showContent ? (
-        <div className="edu-card p-8"><LessonViewer content={lesson.content || ''} /></div>
+        <div className="space-y-6">
+          {/* Video (if video or mixed content) */}
+          {(lesson.contentType === 'video' || lesson.contentType === 'mixed') && (lesson.videoUrl || lesson.videoBlobName) && (
+            <VideoPlayer videoUrl={lesson.videoUrl} title={lesson.title} />
+          )}
+          {/* Article content */}
+          {(lesson.contentType !== 'video' || lesson.contentType === undefined) && lesson.content && (
+            <div className="edu-card p-8"><LessonViewer content={lesson.content} /></div>
+          )}
+        </div>
       ) : (
         <div className="edu-card p-10 text-center">
           <div className="max-w-sm mx-auto">

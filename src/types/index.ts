@@ -1,5 +1,7 @@
 export type Category = 'code' | 'design' | 'music' | 'language' | 'business' | 'other'
 
+export type ContentType = 'article' | 'video' | 'mixed'
+
 export interface LessonMetadata {
   version: number
   title: string
@@ -11,6 +13,9 @@ export interface LessonMetadata {
   price: number
   createdAt: number
   language: string
+  contentType?: ContentType
+  videoUrl?: string
+  videoBlobName?: string
 }
 
 export interface Lesson extends LessonMetadata {

@@ -1,7 +1,7 @@
 import { Network } from '@aptos-labs/ts-sdk'
 import { ShelbyClient } from '@shelby-protocol/sdk/browser'
 
-export const SHELBY_NETWORK = Network.TESTNET
+export const SHELBY_NETWORK = Network.SHELBYNET
 
 export const SHELBY_CONFIG = {
   network: SHELBY_NETWORK,

@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { WalletConnect, useWalletState } from './WalletConnect'
 import { useProfile } from '../contexts/ProfileContext'
 import { shortAddress } from '../config'
+import { ShelbyStatusBanner } from './ShelbyStatusBanner'
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home' },
@@ -129,6 +130,7 @@ export function Layout() {
       </nav>
 
       <main className={`${connected && isNewUser ? 'pt-32' : 'pt-24'} flex-grow`}>
+        <ShelbyStatusBanner />
         <Outlet />
       </main>
 
@@ -170,8 +172,7 @@ export function Layout() {
           </div>
         </div>
         <div className="border-t border-slate-200 py-8 px-8 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500">© 2024 LearnEra. The Academic Atelier.</p>
-          <span className="text-xs font-bold text-primary px-3 py-1 bg-primary/5 rounded">v2.5.0</span>
+          <p className="text-slate-500">© 2026 LearnEra. The Academic Atelier.</p>
         </div>
       </footer>
     </div>

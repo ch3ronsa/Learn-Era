@@ -4,6 +4,12 @@ import { downloadBlobAsText } from './blob-helpers'
 
 const STORAGE_KEY = 'shelbylearn_profiles'
 
+/** Wallet adapter signer shape (from @aptos-labs/wallet-adapter-react useWallet()) */
+type WalletSigner = {
+  account?: { address: any } | null
+  signAndSubmitTransaction: (payload: any) => Promise<any>
+}
+
 // --- localStorage cache layer ---
 
 function getLocalProfiles(): Record<string, UserProfile> {
@@ -25,7 +31,7 @@ function saveLocalProfile(profile: UserProfile) {
 
 export async function saveProfileToShelby(
   profile: UserProfile,
-  _signAndSubmitTransaction?: (payload: any) => Promise<any>,
+  walletSigner: WalletSigner,
 ): Promise<boolean> {
   try {
     const client = getShelbyClient()
@@ -36,7 +42,7 @@ export async function saveProfileToShelby(
 
     await client.upload({
       blobData: data,
-      signer: { address: profile.address } as any,
+      signer: walletSigner as any,
       blobName,
       expirationMicros,
     })
@@ -62,16 +68,16 @@ export async function getProfileFromShelby(address: string): Promise<UserProfile
 
 export async function saveProfile(
   profile: UserProfile,
-  signAndSubmitTransaction?: (payload: any) => Promise<any>,
+  walletSigner?: WalletSigner,
 ): Promise<void> {
   profile.updatedAt = Date.now()
 
   // Always cache locally
   saveLocalProfile(profile)
 
-  // Try Shelby upload
-  if (signAndSubmitTransaction) {
-    await saveProfileToShelby(profile, signAndSubmitTransaction)
+  // Try Shelby upload with real wallet signer
+  if (walletSigner?.account) {
+    await saveProfileToShelby(profile, walletSigner)
   }
 }
 

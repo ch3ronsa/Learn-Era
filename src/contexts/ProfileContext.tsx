@@ -68,13 +68,15 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     loadProfile()
   }, [loadProfile])
 
+  const wallet = useWallet()
+
   const updateProfile = useCallback(async (updates: Partial<UserProfile>) => {
     const current = profile || createDefaultProfile(address)
     const updated: UserProfile = { ...current, ...updates, updatedAt: Date.now() }
     setProfile(updated)
     setIsNewUser(false)
-    await saveProfile(updated)
-  }, [profile, address])
+    await saveProfile(updated, wallet.connected ? wallet : undefined)
+  }, [profile, address, wallet])
 
   const refreshProfile = useCallback(async () => {
     await loadProfile()

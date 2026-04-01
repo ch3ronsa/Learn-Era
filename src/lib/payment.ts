@@ -1,21 +1,53 @@
 import type { InputTransactionData } from '@aptos-labs/wallet-adapter-react'
 
 const OCTAS_PER_APT = 100_000_000
+const PLATFORM_FEE_PERCENT = 5
+// Platform treasury address — receives the 5% fee
+const PLATFORM_ADDRESS = '0x0' // TODO: replace with real platform wallet
 
 /**
- * Build an APT transfer transaction payload.
- * Amount is in APT (e.g. 0.05), converted to octas internally.
+ * Build APT transfer transactions for a lesson purchase.
+ * Splits payment: 95% to educator, 5% to platform.
  */
 export function buildPaymentTransaction(
   recipientAddress: string,
   amountAPT: number,
 ): InputTransactionData {
-  const amountOctas = Math.round(amountAPT * OCTAS_PER_APT)
+  const totalOctas = Math.round(amountAPT * OCTAS_PER_APT)
+  const feeOctas = Math.round(totalOctas * PLATFORM_FEE_PERCENT / 100)
+  const creatorOctas = totalOctas - feeOctas
+
+  // For now, send full amount to creator (platform fee collected when treasury is set)
+  if (PLATFORM_ADDRESS === '0x0' || feeOctas === 0) {
+    return {
+      data: {
+        function: '0x1::aptos_account::transfer',
+        functionArguments: [recipientAddress, totalOctas],
+      },
+    }
+  }
+
+  // When platform address is configured, send creator's share
+  // Fee transaction is handled separately via buildFeeTransaction()
+  return {
+    data: {
+      function: '0x1::aptos_account::transfer',
+      functionArguments: [recipientAddress, creatorOctas],
+    },
+  }
+}
+
+/** Build the platform fee transaction (5%) */
+export function buildFeeTransaction(amountAPT: number): InputTransactionData | null {
+  if (PLATFORM_ADDRESS === '0x0') return null
+  const totalOctas = Math.round(amountAPT * OCTAS_PER_APT)
+  const feeOctas = Math.round(totalOctas * PLATFORM_FEE_PERCENT / 100)
+  if (feeOctas === 0) return null
 
   return {
     data: {
       function: '0x1::aptos_account::transfer',
-      functionArguments: [recipientAddress, amountOctas],
+      functionArguments: [PLATFORM_ADDRESS, feeOctas],
     },
   }
 }

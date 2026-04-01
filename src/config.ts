@@ -20,6 +20,22 @@ export function getShelbyClient(): ShelbyClient {
   return _shelbyClient
 }
 
+/** Check if Shelby RPC is reachable */
+export async function checkShelbyConnection(): Promise<boolean> {
+  try {
+    const client = getShelbyClient()
+    // Try a lightweight call — list blobs for a known nonexistent account
+    await client.download({ account: '0x1', blobName: '__ping__' })
+    return true
+  } catch (err: any) {
+    // A 404 / "blob not found" means the RPC is reachable
+    if (err?.message?.includes('not found') || err?.message?.includes('404') || err?.status === 404) {
+      return true
+    }
+    return false
+  }
+}
+
 export const BLOB_PREFIX = 'shelbylearn'
 export const META_PREFIX = `${BLOB_PREFIX}/meta`
 export const CONTENT_PREFIX = `${BLOB_PREFIX}/content`

@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { LessonCard } from '../components/LessonCard'
-import { getDemoLessons } from '../lib/demo-lessons'
+import { useShelbyLessons } from '../hooks/useShelbyLessons'
 
 export function Home() {
   const navigate = useNavigate();
-  const lessons = getDemoLessons()
+  const { lessons } = useShelbyLessons()
   const featured = lessons.slice(0, 3)
 
   const handleSearch = (e: React.FormEvent) => {
@@ -25,7 +25,7 @@ export function Home() {
               The World's Leading <span className="text-primary">Educational</span> Marketplace
             </h1>
             <p className="text-lg text-on-surface-variant max-w-xl mb-10 leading-relaxed">
-              Experience a decentralized learning ecosystem built for creators. High-trust, editorial-grade education with complete transparency and zero platform fees.
+              A decentralized learning ecosystem built for creators. Pay-per-lesson model with only 5% platform fee — creators keep 95% of every sale.
             </p>
             <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4 max-w-md">
               <div className="relative flex-grow">
@@ -56,22 +56,22 @@ export function Home() {
               <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-on-primary transition-all">
                 <span className="material-symbols-outlined text-3xl">payments</span>
               </div>
-              <h3 className="font-headline font-bold text-2xl mb-4">100% Creator Revenue</h3>
-              <p className="text-on-surface-variant leading-relaxed">Every cent goes directly to the instructor. We believe in empowering the experts who shape our future.</p>
+              <h3 className="font-headline font-bold text-2xl mb-4">95% Creator Revenue</h3>
+              <p className="text-on-surface-variant leading-relaxed">Instructors keep 95% of every sale. Only a 5% platform fee keeps the lights on — compared to 37-75% on legacy platforms.</p>
             </div>
             <div className="p-10 rounded-3xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow group">
               <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:text-on-secondary transition-all">
-                <span className="material-symbols-outlined text-3xl">universal_currency</span>
+                <span className="material-symbols-outlined text-3xl">shopping_cart</span>
               </div>
-              <h3 className="font-headline font-bold text-2xl mb-4">$0 Platform Fees</h3>
-              <p className="text-on-surface-variant leading-relaxed">Our infrastructure is powered by decentralized protocols, allowing us to operate without predatory fees.</p>
+              <h3 className="font-headline font-bold text-2xl mb-4">Pay-Per-Lesson</h3>
+              <p className="text-on-surface-variant leading-relaxed">No subscriptions, no bundles. Buy only the lessons you need. One payment, permanent access, direct to the creator.</p>
             </div>
             <div className="p-10 rounded-3xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow group">
               <div className="w-14 h-14 rounded-2xl bg-tertiary/10 flex items-center justify-center mb-8 group-hover:bg-tertiary group-hover:text-on-tertiary transition-all">
-                <span className="material-symbols-outlined text-3xl">bolt</span>
+                <span className="material-symbols-outlined text-3xl">verified</span>
               </div>
-              <h3 className="font-headline font-bold text-2xl mb-4">&lt;1s Data Access</h3>
-              <p className="text-on-surface-variant leading-relaxed">Lightning-fast content delivery. Start learning the moment you decide, no buffering, no delays.</p>
+              <h3 className="font-headline font-bold text-2xl mb-4">On-Chain Verified</h3>
+              <p className="text-on-surface-variant leading-relaxed">Every lesson is stored on Shelby Protocol with merkle proof verification. Tamper-proof content, transparent payments.</p>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ export function Home() {
           <div className="relative z-10">
             <h2 className="font-headline font-extrabold text-4xl md:text-6xl mb-8">Ready to Start Learning?</h2>
             <p className="text-xl text-primary-fixed mb-12 max-w-2xl mx-auto leading-relaxed opacity-90">
-              Join 50,000+ students already mastering the future. Whether you're here to learn or to teach, the Academic Atelier is your home.
+              Whether you're here to learn or to teach, the Academic Atelier is your home. 95% revenue for creators, pay-per-lesson for students.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <Link to="/explore" className="bg-on-primary text-primary px-10 py-5 rounded-full font-extrabold hover:scale-105 active:scale-95 transition-all shadow-xl inline-block">

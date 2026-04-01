@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { LessonCard } from '../components/LessonCard'
 import { CategoryFilter } from '../components/CategoryFilter'
-import { getDemoLessons } from '../lib/demo-lessons'
+import { useShelbyLessons } from '../hooks/useShelbyLessons'
 import type { Category } from '../types'
 
 export function Explore() {
@@ -10,7 +10,7 @@ export function Explore() {
   const initialCategory = (searchParams.get('category') as Category | null) || 'all'
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>(initialCategory)
   const [searchQuery, setSearchQuery] = useState('')
-  const allLessons = getDemoLessons()
+  const { lessons: allLessons, loading: shelbyLoading, isDemo } = useShelbyLessons()
 
   const filteredLessons = useMemo(() => {
     let result = allLessons
@@ -38,10 +38,15 @@ export function Explore() {
         <CategoryFilter selected={selectedCategory} onChange={setSelectedCategory} />
       </div>
 
-      {filteredLessons.length > 0 ? (
+      {shelbyLoading && (
+        <p className="text-center py-12 text-[var(--color-text-muted)] text-sm">Loading courses from Shelby...</p>
+      )}
+
+      {!shelbyLoading && filteredLessons.length > 0 ? (
         <>
           <p className="text-xs text-[var(--color-text-muted)] mb-5 font-medium">
             Showing {filteredLessons.length} course{filteredLessons.length !== 1 ? 's' : ''}
+            {isDemo && <span className="ml-2 px-2 py-0.5 rounded-full bg-[var(--color-smoke-lighter)] text-[10px]">Demo</span>}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredLessons.map(lesson => (
@@ -49,13 +54,13 @@ export function Explore() {
             ))}
           </div>
         </>
-      ) : (
+      ) : !shelbyLoading ? (
         <div className="text-center py-20">
           <div className="text-4xl mb-3">🔍</div>
           <h3 className="text-base font-bold text-[var(--color-chalk)] mb-1">No courses found</h3>
           <p className="text-sm text-[var(--color-text-muted)]">Try a different search or category.</p>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

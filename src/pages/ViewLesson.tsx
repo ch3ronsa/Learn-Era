@@ -6,7 +6,7 @@ import { useWalletState } from '../components/WalletConnect'
 import { getDemoLesson } from '../lib/demo-lessons'
 import { downloadBlobAsText } from '../lib/blob-helpers'
 import { getCategoryById } from '../lib/categories'
-import { buildPaymentTransaction, isLessonPaid, markLessonPaid, verifyPaymentOnChain, markPaymentVerified, getPaymentRecord } from '../lib/payment'
+import { buildPaymentTransaction, buildFeeTransaction, isLessonPaid, markLessonPaid, verifyPaymentOnChain, markPaymentVerified, getPaymentRecord } from '../lib/payment'
 import { formatAPT, shortAddress, getShelbyClient, makeMetaBlobName } from '../config'
 import { useState, useEffect } from 'react'
 import type { Lesson, LessonMetadata } from '../types'
@@ -138,12 +138,18 @@ export function ViewLesson() {
                 onClick={async () => {
                   if (!slug) return; setPaying(true); setPayError('')
                   try {
+                    // Pay creator (95%)
                     const tx = buildPaymentTransaction(lesson.author, lesson.price)
                     const result = await wallet.signAndSubmitTransaction(tx)
                     const hash = typeof result === 'object' && 'hash' in result ? result.hash : String(result)
-                    markLessonPaid(slug, hash)
 
-                    // Verify on-chain (non-blocking — unlock immediately, verify in background)
+                    // Pay platform fee (5%) — non-blocking
+                    const feeTx = buildFeeTransaction(lesson.price)
+                    if (feeTx) {
+                      wallet.signAndSubmitTransaction(feeTx).catch(() => {})
+                    }
+
+                    markLessonPaid(slug, hash)
                     setUnlocked(true)
                     verifyPaymentOnChain(hash, lesson.author, lesson.price).then(verified => {
                       if (verified) markPaymentVerified(slug)

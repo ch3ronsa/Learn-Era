@@ -84,7 +84,7 @@ export async function downloadBlobAsText(
   account: AccountAddressInput,
   blobName: string,
 ): Promise<string> {
-  const blob = await client.rpc.getBlob({ account, blobName })
+  const blob = await client.download({ account, blobName })
   const reader = blob.readable.getReader()
   const chunks: Uint8Array[] = []
 
